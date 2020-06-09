@@ -205,7 +205,7 @@ router.post('/myorder/pending', (req, res) => {
 
     if (utype == 'Customer') {
    
-        orders.find({userID:user_ID}&&{ratingStatus:"NotDone"},async function(err,loi){
+        orders.find({ $and: [ { userID:user_ID }, { ratingStatus:"NotDone" },{orderStatus:"Finish"} ] },async function(err,loi){
             if(err)
             {
                 console.log(err)

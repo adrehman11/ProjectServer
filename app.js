@@ -14,7 +14,7 @@ var editprofileRouter = require('./routes/editprofile');
 var adminRouter =require('./routes/adminwork');
 var addmeasurementsRouter =require('./routes/addmeasurements');
 var viewprofileRouter =require('./routes/viewprofile');
-var categoryRouter =require('./routes/category');
+var recommenderRouter =require('./routes/recommender');
 var mapslocationRouter =require('./routes/maplocation');
 var testRouter = require('./routes/test');
 var orderRouter = require('./routes/order');
@@ -118,7 +118,7 @@ app.use('/editprofile',userAuth,editprofileRouter);
 app.use('/adminwork',adminRouter);
 app.use('/viewprofile',userAuth,viewprofileRouter);
 app.use('/addmeasurements',userAuth,addmeasurementsRouter);
-app.use('/category',userAuth,categoryRouter);
+app.use('/recommender',userAuth,recommenderRouter);
 app.use('/model',userAuth,modelRouter);
 
 // catch 404 and forward to error handler

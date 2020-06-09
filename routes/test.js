@@ -2,6 +2,7 @@ var express = require('express');
 const user = require('../models/user');
 const tailor = require('../models/tailor');
 const price = require('../models/price');
+const order = require('../models/Order');
 const cm = require('../models/customerRequirement');
 const tailorwork = require('../models/tailorWork');
 const axios = require('axios').default;
@@ -90,7 +91,7 @@ router.post('/GetDressName', (req, res) => {
     }
     else if(utype=="Customer")
     {
-      cm.find({userID:id},function(err,da){
+      cm.find({userID:id},async function(err,da){
         if(err)
         {
             console.log(err)
@@ -99,6 +100,19 @@ router.post('/GetDressName', (req, res) => {
           for (var i = 0; i < da.length; i++){
             orders.push(da[i]._id);
           }
+          await order.find({userID:id},function (err,dota2kha){
+            if(err)
+            {
+              console.log(err)
+            }
+            else
+            {
+                for (var i = 0; i < dota2kha.length; i++){
+            orders.push(dota2kha[i]._id);
+          }
+            }
+          })
+          
           for (var q = 0; q < orders.length; q++) {
             let datp = {
 
