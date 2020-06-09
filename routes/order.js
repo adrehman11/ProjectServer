@@ -451,6 +451,7 @@ router.post('/myorder/requests', (req, res) => {
     var tailorName = [];
     var tailorLocation = [];
     var image = [];
+    var TailorID = [];
     var dresstype = [];
 
     if (utype == 'Customer') {
@@ -462,6 +463,7 @@ router.post('/myorder/requests', (req, res) => {
                 for (var i = 0; i < data12.length; i++) {
                     orderID.push(data12[i]._id);
                     customerID = data12[i].userID
+                    TailorID .push(data12[i].tailorID) 
 
                     await tailors.findOne({ _id: data12[i].tailorID }, async function (err, dots) {
                         if (err) {
@@ -497,6 +499,7 @@ router.post('/myorder/requests', (req, res) => {
                         ordersID: ordersID[q],
                         orderDate: orderDate[q],
                         tailorName: tailorName[q],
+                        TailorID:TailorID[q],
                         tailorLocation: tailorLocation[q],
                         image: image[q],
                         dresstype: dresstype[q]

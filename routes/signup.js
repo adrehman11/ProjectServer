@@ -115,6 +115,7 @@ router.post('/', (req, res) => {
             console.error(err)
             res.json({ "messge": "informattion not saved please enter again" })
           } else {
+            console.log(userid)
             res.json({ message: "login", "id": userid,rating:"0.0", "utype": utype,"name":data.firstname+" "+data.lastname });
           }
         })

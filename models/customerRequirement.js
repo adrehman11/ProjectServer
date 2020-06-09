@@ -6,7 +6,7 @@ var CustomerRequirementSchema = new mongoose.Schema({
     type: String,
     
   },
-  tailorID:{
+  tailorID :{
     type: String,
   },
   orderID:{
