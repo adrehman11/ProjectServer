@@ -10,9 +10,11 @@ var SuggestionSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  suggestionDate: {
-    type: Date,
-    required: true
+  suggestionimage: {
+    type: String
+  },
+  status: {
+    type: String
   }
 });
 module.exports = mongoose.model('suggestion', SuggestionSchema);

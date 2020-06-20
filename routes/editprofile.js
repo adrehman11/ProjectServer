@@ -3,15 +3,42 @@ var router = express.Router();
 var bodyParser =require('body-Parser');
 const user = require('../models/user');
 const tailor = require('../models/tailor');
+const suggestion = require('../models/suggestion');
+const problems = require('../models/problems');
+
+router.post('/reportproblem',(req,res)=>{
+  var type = req.body.type;
+  var id = req.body.id;
+  var discription = req.body.discription;
+  var image = req.body.image;
+  if (type=="Suggestion")
+  {
+      var suggest = new suggestion({userID:id,suggestionDiscription:discription,suggestionimage:image,status:"NotReplied"})
+      suggest.save(function(err,data){
+        if(err)
+        {
+          console.log(err)
+        }
+        else {
+          res.json({message:"Done"})
+        }
+      })
+  }
+  else {
+    var problems = new problem({userID:id,problemDiscription:discription,problemimage:image,status:"NotReplied"})
+    problems.save(function(err,data){
+      if(err)
+      {
+        console.log(err)
+      }
+      else {
+        res.json({message:"Done"})
+      }
+    })
+  }
 
 
-
-
-
-
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({extended:true}));
-
+})
 
     router.post('/',(req,res)=>{
       var post_data=req.body;
@@ -51,6 +78,6 @@ router.use(bodyParser.urlencoded({extended:true}));
           }
         })
       }
-      
+
       })
 module.exports = router;

@@ -11,7 +11,7 @@ var loginRouter = require('./routes/login');
 var forgetRouter = require('./routes/forgetpassword');
 var updatepassRouter = require('./routes/updatepassword');
 var editprofileRouter = require('./routes/editprofile');
-var adminRouter =require('./routes/adminwork');
+
 var addmeasurementsRouter =require('./routes/addmeasurements');
 var viewprofileRouter =require('./routes/viewprofile');
 var recommenderRouter =require('./routes/recommender');
@@ -19,8 +19,8 @@ var mapslocationRouter =require('./routes/maplocation');
 var testRouter = require('./routes/test');
 var orderRouter = require('./routes/order');
 var order2Router = require('./routes/order2');
-
-var modelRouter =require('./routes/model');
+var dashboardRouter = require('./routes/dashboard');
+var dashboardRouter2 = require('./routes/dashboard2');
 const user = require('./models/user');
 const tailor = require('./models/tailor');
 const http = require("http")
@@ -48,7 +48,13 @@ app.set('view engine', 'jade');
 
 //app.use(session({secret:'mysecret',resave:false,saveUninitialized:false}));
 //app.use('/uploads',express.static('uploads'));
+function access(req,res,next){
+  res.setHeader("Access-Control-Allow-Origin","*");
+  res.setHeader("Access-Control-Allow-Headers","Origin,X-Requsted-With,Content-Type","Accept");
+  res.setHeader("Access-Control-Allow-Methods","GET,POST,PATCH,DELETE,OPTIONS");
+  next();
 
+}
 
  function userAuth (req,res,next){
   var post_data = req.body;
@@ -70,7 +76,7 @@ app.set('view engine', 'jade');
         res.json({'message':'login again'})
       }
       else {
-       
+
         next();
       }
 
@@ -115,11 +121,13 @@ app.use('/login',loginRouter);
 app.use('/forgetpassword',forgetRouter);
 app.use('/updatepassword',userAuth, updatepassRouter);
 app.use('/editprofile',userAuth,editprofileRouter);
-app.use('/adminwork',adminRouter);
+
 app.use('/viewprofile',userAuth,viewprofileRouter);
 app.use('/addmeasurements',userAuth,addmeasurementsRouter);
 app.use('/recommender',userAuth,recommenderRouter);
-app.use('/model',userAuth,modelRouter);
+
+app.use('/dashboard',access,dashboardRouter);
+app.use('/dashboard2',access,dashboardRouter2);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -9,6 +9,12 @@ var ProblemsSchema = new mongoose.Schema({
   problemDiscription: {
     type: String,
     required: true
+  },
+  problemimage: {
+    type: String
+  },
+  status: {
+    type: String
   }
 });
 module.exports = mongoose.model('problem', ProblemsSchema);
