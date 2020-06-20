@@ -15,6 +15,9 @@ var ProblemsSchema = new mongoose.Schema({
   },
   status: {
     type: String
+  },
+  utype: {
+    type: String
   }
 });
 module.exports = mongoose.model('problem', ProblemsSchema);

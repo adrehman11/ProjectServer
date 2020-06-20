@@ -236,10 +236,10 @@ router.get('/getorders',(req,res)=>{
 })
 router.get('/getsuggestion',(req,res)=>{
   var ID=[]
-  var Name=[]
+  var Utype=[]
   var Status=[]
   var resdata=[]
-var  suggestionutype="Customer"
+
   suggest.find(async function (err, dots) {
     if(err)
     {
@@ -250,38 +250,16 @@ var  suggestionutype="Customer"
       {
 
         ID.push("5ede2a06fef5dc176003422d")
-        Status.push("unread");
-        //await user.find({_id:dots.userID},function(err,dpts){})
-        if(suggestionutype="Customer")
-        {
-          await user.find(function(err,dpts){
-            if(err)
-            {
-              console.log(err);
-            }
-            else {
-              Name.push("Ali"+"Ahmad")
-            }
-          })
-        }
-        else {
-          await tailor.find(function(err,dpts){
-            if(err)
-            {
-              console.log(err);
-            }
-            else {
-              Name.push("Mushtak Ahmad"+"Ahmad")
-            }
-          })
-        }
+        Utype.push("Customer")
+        Status.push("NotReplied");
+
 
 
       }
       for (var q = 0; q < ID.length; q++) {
           let datp = {
               ID: ID[q],
-              Name: Name[q],
+              Utype: Utype[q],
               Status:Status[q]
           }
           resdata.push(datp)
@@ -297,10 +275,10 @@ var  suggestionutype="Customer"
 })
 router.get('/getproblems',(req,res)=>{
   var ID=[]
-  var Name=[]
+  var Utype=[]
   var Status=[]
   var resdata=[]
-var  problemutype="Customer"
+
   problem.find(async function (err, dots) {
     if(err)
     {
@@ -311,38 +289,17 @@ var  problemutype="Customer"
       {
 
         ID.push("5ede2a06fef5dc176003422d")
+        Utype.push("Tailor")
         Status.push("replied");
-        //await user.find({_id:dots.userID},function(err,dpts){})
-        if(problemutype="Customer")
-        {
-          await user.find(function(err,dpts){
-            if(err)
-            {
-              console.log(err);
-            }
-            else {
-              Name.push("Ali"+"Ahmad")
-            }
-          })
-        }
-        else {
-          await tailor.find(function(err,dpts){
-            if(err)
-            {
-              console.log(err);
-            }
-            else {
-              Name.push("Mushtak Ahmad"+"Ahmad")
-            }
-          })
-        }
+
+
 
 
       }
       for (var q = 0; q < ID.length; q++) {
           let datp = {
               ID: ID[q],
-              Name: Name[q],
+              Utype: Utype[q],
               Status:Status[q]
           }
           resdata.push(datp)

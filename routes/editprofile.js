@@ -8,12 +8,13 @@ const problems = require('../models/problems');
 
 router.post('/reportproblem',(req,res)=>{
   var type = req.body.type;
+  var utype=req.body.utype;
   var id = req.body.id;
   var discription = req.body.discription;
   var image = req.body.image;
   if (type=="Suggestion")
   {
-      var suggest = new suggestion({userID:id,suggestionDiscription:discription,suggestionimage:image,status:"NotReplied"})
+      var suggest = new suggestion({userID:id,suggestionDiscription:discription,suggestionimage:image,status:"NotReplied",utype:utype})
       suggest.save(function(err,data){
         if(err)
         {
@@ -25,7 +26,7 @@ router.post('/reportproblem',(req,res)=>{
       })
   }
   else {
-    var problems = new problem({userID:id,problemDiscription:discription,problemimage:image,status:"NotReplied"})
+    var problems = new problem({userID:id,problemDiscription:discription,problemimage:image,status:"NotReplied",utype:utype})
     problems.save(function(err,data){
       if(err)
       {

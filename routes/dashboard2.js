@@ -9,6 +9,7 @@ const suggest = require('../models/suggestion');
 const problem = require('../models/problems');
 const nodemailer = require('nodemailer');
 
+
 function sendemail(email){
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -168,6 +169,26 @@ router.post('/orderDetails',(req,res)=>{
 
       }
     })
+
+})
+router.post('/viewsuggestionproblem'(req,res)=>{
+  var id = req.body.id;
+  var type= req.body.type;
+  if(type=="suggestion")
+  {
+    suggest.findOne({_id:id},async function(err,data){
+      if(err)
+      {
+        console.log(err)
+      }
+      else {
+        
+      }
+    })
+  }
+  else {
+
+  }
 
 })
 
