@@ -4,7 +4,7 @@ const tailor = require('../models/tailor');
 var bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const Nexmo = require('nexmo');
-
+require('dotenv').config()
 
 var router = express.Router();
 
@@ -13,9 +13,12 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 router.post('/', (req, res) => {
   var email = req.body.email;
+  console.log(email)
   var utype = req.body.utype;
-  console.log(email, utype)
-
+  let adminemail= process.env.EMAIL
+  let adminpassword=process.env.PASSWORD
+  let adminapi=process.env.APIKEYNEXO
+  let adminsecrete=process.env.APISECRETENEXO
   if (email.includes("@")) {
     if (utype == 'Customer') {
       user.findOne({ email: email }).count(function (err, number) {
@@ -41,12 +44,12 @@ router.post('/', (req, res) => {
                 let transporter = nodemailer.createTransport({
                   service: 'gmail',
                   auth: {
-                    user: 'adrehman10@gmail.com',
-                    pass: 'PvPgHminnION123'
+                    user: adminemail,
+                    pass: adminpassword
                   }
                 });
                 let mailOptions = {
-                  from: 'adrehman10@gmail.com',
+                  from: adminemail,
                   to: email,
                   subject: 'Verification Code',
                   text: 'your verification code is this ' + random_no
@@ -93,12 +96,12 @@ router.post('/', (req, res) => {
                 let transporter = nodemailer.createTransport({
                   service: 'gmail',
                   auth: {
-                    user: 'adrehman10@gmail.com',
-                    pass: 'PvPgHminnION123'
+                    user: adminemail,
+                    pass: adminpassword
                   }
                 });
                 let mailOptions = {
-                  from: 'adrehman10@gmail.com',
+                  from: adminemail,
                   to: email,
                   subject: 'Verification Code',
                   text: 'your verification code is this ' + random_no
@@ -124,6 +127,7 @@ router.post('/', (req, res) => {
   }
   else {
     if (utype == 'Customer') {
+
       user.findOne({ contact: email }).count(function (err, number) {
         if (err) {
           console.log(err);
@@ -146,8 +150,8 @@ router.post('/', (req, res) => {
                 var random_no = Math.floor(Math.random() * (max - min + 1)) + min;
 
                 const nexmo = new Nexmo({
-                  apiKey: '5c2509fd',
-                  apiSecret: 'rheZZAXBL6WDVtb5',
+                  apiKey: adminapi,
+                  apiSecret:adminsecrete,
                 });
 
                 const from = 'Stitch It';
@@ -187,8 +191,8 @@ router.post('/', (req, res) => {
                 var random_no = Math.floor(Math.random() * (max - min + 1)) + min;
 
                 const nexmo = new Nexmo({
-                  apiKey: '5c2509fd',
-                  apiSecret: 'rheZZAXBL6WDVtb5',
+                  apiKey: adminapi,
+                  apiSecret: adminsecrete,
                 });
 
                 const from = 'Stitch It';

@@ -7,13 +7,15 @@ const orders1 = require('../models/Order');
 const faq = require('../models/FAQ_s');
 const suggest = require('../models/suggestion');
 const problem = require('../models/problems');
-
+require('dotenv').config()
 
 
 router.post('/adminlogin',(req,res)=>{
   var email = req.body.Email;
   var password=req.body.Password;
-  if(email=="abc"&& password=="123")
+  let adminemail= process.env.ADMIN_EMAIL
+  let adminpassword=process.env.ADMIN_PASS
+  if(email==adminemail  && password==adminpassword )
   {
       res.json({ "message": "done"});
   }
@@ -254,15 +256,12 @@ router.get('/getsuggestion',(req,res)=>{
       cosole.log(err)
     }
     else {
-      for(var i=0;i<5;i++)
+      for(var i=0;i<dots.length;i++)
       {
 
-        ID.push("5ede2a06fef5dc176003422d")
-        Utype.push("Customer")
-        Status.push("NotReplied");
-
-
-
+        ID.push(dots[i]._id)
+        Utype.push(dots[i].utype)
+        Status.push(dots[i].status);
       }
       for (var q = 0; q < ID.length; q++) {
           let datp = {
@@ -293,12 +292,12 @@ router.get('/getproblems',(req,res)=>{
       cosole.log(err)
     }
     else {
-      for(var i=0;i<5;i++)
+      for(var i=0;i<dots.length;i++)
       {
 
-        ID.push("5ede2a06fef5dc176003422d")
-        Utype.push("Tailor")
-        Status.push("replied");
+        ID.push(dots[i]._id)
+        Utype.push(dots[i].utype)
+        Status.push(dots[i].status);
 
 
 

@@ -10,7 +10,7 @@ router.post('/reportproblem',(req,res)=>{
   var type = req.body.type;
   var utype=req.body.utype;
   var id = req.body.id;
-  var discription = req.body.discription;
+  var discription = req.body.description;
   var image = req.body.image;
   if (type=="Suggestion")
   {
@@ -26,8 +26,8 @@ router.post('/reportproblem',(req,res)=>{
       })
   }
   else {
-    var problems = new problem({userID:id,problemDiscription:discription,problemimage:image,status:"NotReplied",utype:utype})
-    problems.save(function(err,data){
+    var problem = new problems({userID:id,problemDiscription:discription,problemimage:image,status:"NotReplied",utype:utype})
+    problem.save(function(err,data){
       if(err)
       {
         console.log(err)
