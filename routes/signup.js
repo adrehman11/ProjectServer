@@ -40,11 +40,12 @@ router.post('/', (req, res) => {
   var trouser_calf = "";
   var trouser_ankle = "";
 
-
+  var x = new Date();
+  var month = x.getMonth();
   if (utype == "Tailor") {
     var t = new tailor({
       firstname: firstname, lastname: lastname, contact: contact, email: email,
-      gender: gender, password: password, image: image, lati: lati, lngi: lngi,rating:"0.0"
+      gender: gender, password: password, image: image, lati: lati, lngi: lngi,rating:"0.0",registermonth:month
     })
     t.save(async function (err, data) {
 
@@ -89,7 +90,7 @@ router.post('/', (req, res) => {
     })
   }
   else {
-    var u = new user({ firstname: firstname, lastname: lastname, contact: contact, email: email, gender: gender, password: password, image: image })
+    var u = new user({ firstname: firstname, lastname: lastname, contact: contact, email: email, gender: gender, password: password, image: image,registermonth:month })
     u.save(function (err, data) {
       userid = data._id;
       if (err) {
@@ -204,6 +205,6 @@ router.post('/tailorprice', (req, res) => {
         })
       }
     })
-  
+
 })
 module.exports = router;

@@ -15,7 +15,7 @@ const tailor = new mongoose.Schema({
   },
   email: {
     type: String,
-    
+
   },
   gender: {
     type: String,
@@ -37,6 +37,10 @@ const tailor = new mongoose.Schema({
   image:{
     type: String
   }
-  
+  ,
+  registermonth:{
+    type:String
+  }
+
 });
  module.exports = mongoose.model('Tailor', tailor);

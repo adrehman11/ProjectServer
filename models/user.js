@@ -16,7 +16,7 @@ var User = new mongoose.Schema({
   },
   email: {
     type: String,
-   
+
   },
   gender: {
     type: String,
@@ -27,6 +27,9 @@ var User = new mongoose.Schema({
     required: true
   },
   image:{
+    type:String
+  },
+  registermonth:{
     type:String
   }
 });

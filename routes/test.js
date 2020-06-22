@@ -43,10 +43,10 @@ router.post('/', (req, res) => {
 })
 
 router.post('/GetDressName', (req, res) => {
- 
+
   var id = req.body.tailorid;
-  
- 
+
+
   price.findOne({tailorID:id},function(err,data){
     if(err)
     {
@@ -59,7 +59,7 @@ router.post('/GetDressName', (req, res) => {
     })
   })
   router.post('/ordersid', (req, res) => {
- 
+
     var id = req.body.id;
     var utype = req.body.utype;
     var orders=[]
@@ -79,14 +79,14 @@ router.post('/GetDressName', (req, res) => {
             let datp = {
 
                 orderID: orders[q],
-  
+
             }
-           
+
             resData.push(datp)
         }
         res.json({ resData: resData });
         }
-          
+
       })
     }
     else if(utype=="Customer")
@@ -112,23 +112,23 @@ router.post('/GetDressName', (req, res) => {
           }
             }
           })
-          
+
           for (var q = 0; q < orders.length; q++) {
             let datp = {
 
                 orderID: orders[q],
-  
+
             }
-           
+
             resData.push(datp)
         }
         res.json({ resData: resData });
         }
-          
+
       })
     }
     })
-  
+
 
 
 
@@ -164,7 +164,7 @@ router.post('/picture', (req, res) => {
         console.log('could not found user', err);
       }
       else {
-        res.json({ message: "ok1", name: data.firstname + " " + data.lastname, contact:  data.contact, email: data.email, gender: data.gender, "image": data.image, address: "" });
+        res.json({ message: "ok1", name: data.firstname + " " + data.lastname, contact:  data.contact,  "image": data.image});
         console.log('data send');
       }
     })
@@ -192,47 +192,47 @@ router.post('/picture', (req, res) => {
               }
               else
               {
-               
+
                 if (resData === undefined || resData.length == 0) {
                   axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
                   .then((data1) => {
-        
+
                     res.json({
                       message: "ok", address: data1.data.results[0].formatted_address,
                       name: data.firstname + " " + data.lastname,
-                      contact: data.contact, 
+                      contact: data.contact,
                       DressName:data12.DressName,
                       DressPrice:data12.DressPrice,
                       "image": data.image,
-                      
+
                     });
-        
+
                   })
-                      
+
                 }
                 else
                 {
                   axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
                   .then((data1) => {
-        
+
                     res.json({
                       message: "ok1", address: data1.data.results[0].formatted_address,
                       name: data.firstname + " " + data.lastname,
-                      contact: data.contact, 
+                      contact: data.contact,
                       resData:resData,  DressName:data12.DressName,
                       DressPrice:data12.DressPrice,
                       "image": data.image
-                      
+
                     });
-        
+
                   })
                 }
-                
+
               }
             })
-           
-       
-           
+
+
+
           }
         })
 

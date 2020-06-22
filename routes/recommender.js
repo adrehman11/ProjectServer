@@ -5,7 +5,7 @@ const tailor = require('../models/tailor');
 
 router.post('/',(req,res)=>{
   var post_data = req.body;
- 
+
 
   var fromlat = parseFloat(post_data.lati);
   var fromlng = parseFloat(post_data.lngi);
@@ -29,20 +29,20 @@ router.post('/',(req,res)=>{
         tailor_image.push(data[i].image)
         if(data[i].rating==undefined || data[i].rating==null || data[i].rating=="NaN" || data[i].rating=="")
         {
-          tailor_rating.push("0")  
+          tailor_rating.push("0")
         }
         else
         {
           tailor_rating.push(data[i].rating)
         }
-        
+
         tailor_name.push(data[i].firstname+data[i].lastname)
       }
       for (j = 0; j < tailor_lngi.length; j++) {
         var tolati = parseFloat(tailor_lati[j]);
         var tolngi = parseFloat(tailor_lngi[j]);
       var distance=geolib.getDistance({ latitude: fromlat, longitude: fromlng }, { latitude: tolati, longitude: tolngi })
-       
+
          console.log("distance"+distance/1000)
          distanceinmeter.push(distance / 1000)
       }
@@ -100,20 +100,20 @@ router.post('/',(req,res)=>{
             tailor_ID: tailor_ID[q],
             tailor_name :tailor_name[q],
             tailor_rating :tailor_rating[q],
-            tailor_rating :tailor_rating[q],
             tailor_image :tailor_image[q],
           }
         }
-        
+
         resData.push(data)
 
       }
+    
       res.json({ resData: resData });
     }//end else
 
   })
 
-    
+
 })
 
 module.exports = router;
