@@ -7,14 +7,16 @@ var router = express.Router();
 
 router.post('/', (req, res) => {
   var post_data = req.body;
-  // var tolat1="29.394956"
-  // var tolang1="71.710772"
+
 
   var fromlat = parseFloat(post_data.lati);
   var fromlng = parseFloat(post_data.lngi);
   var tailor_ID = [];
   var tailor_lati = [];
   var tailor_lngi = [];
+  var tailor_ID1 = [];
+  var tailor_lati1 = [];
+  var tailor_lngi1 = [];
   var distanceinmeter = [];
   tailor.find(async function (err, data) {
     if (err) {
@@ -30,9 +32,16 @@ router.post('/', (req, res) => {
         var tolati = parseFloat(tailor_lati[j]);
         var tolngi = parseFloat(tailor_lngi[j]);
       var distance=geolib.getDistance({ latitude: fromlat, longitude: fromlng }, { latitude: tolati, longitude: tolngi })
-       
-         console.log("distance"+distance/1000)
-         distanceinmeter.push(distance / 1000)
+      var dis = distance/1000
+
+         if(dis<=100)
+         {
+         distanceinmeter.push(dis)
+         tailor_ID1.push(tailor_ID[j])
+         tailor_lati1.push(tailor_lati[j])
+         tailor_lngi1.push(tailor_lngi[j])
+         }
+
       }
 
       var mintemp1;
@@ -48,17 +57,17 @@ router.post('/', (req, res) => {
           distanceinmeter[mintemp1] = distanceinmeter[k];
           distanceinmeter[k] = b;
 
-          var c = tailor_ID[mintemp1];
-          tailor_ID[mintemp1] = tailor_ID[k];
-          tailor_ID[k] = c;
+          var c = tailor_ID1[mintemp1];
+          tailor_ID1[mintemp1] = tailor_ID1[k];
+          tailor_ID1[k] = c;
 
-          var d = tailor_lati[mintemp1];
-          tailor_lati[mintemp1] = tailor_lati[k];
-          tailor_lati[k] = d;
+          var d = tailor_lati1[mintemp1];
+          tailor_lati1[mintemp1] = tailor_lati1[k];
+          tailor_lati1[k] = d;
 
-          var g = tailor_lngi[mintemp1];
-          tailor_lngi[mintemp1] = tailor_lngi[k];
-          tailor_lngi[k] = g;
+          var g = tailor_lngi1[mintemp1];
+          tailor_lngi1[mintemp1] = tailor_lngi1[k];
+          tailor_lngi1[k] = g;
         }
 
 
@@ -66,9 +75,9 @@ router.post('/', (req, res) => {
       let resData = [];
       for (var q = 0; q < 5; q++) {
         let data = {
-          tailor_ID: tailor_ID[q],
-          tailor_lati: tailor_lati[q],
-          tailor_lngi: tailor_lngi[q],
+          tailor_ID: tailor_ID1[q],
+          tailor_lati: tailor_lati1[q],
+          tailor_lngi: tailor_lngi1[q],
         }
         resData.push(data)
 
@@ -97,7 +106,7 @@ router.post('/tailorpopup', (req, res) => {
     if (error) {
       console.log(error);
     }
-   
+
     else {
       tailorName = data12.firstname + " " + data12.lastname
       image = data12.image;
@@ -109,7 +118,7 @@ router.post('/tailorpopup', (req, res) => {
         .then((data1) => {
           tailorLocation = data1.data.results[0].address_components[1].long_name
         })
-     
+
       res.json({ "messeage":"popup","tailorName":tailorName,
       "image":image,"contact":contact,"gender":gender,"tailorLocation":tailorLocation});
     }

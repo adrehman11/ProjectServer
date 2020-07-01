@@ -5,7 +5,8 @@ const tailor = require('../models/tailor');
 const price = require('../models/price');
 const measurement = require('../models/measurements')
 const nodemailer = require('nodemailer');
-
+var x = new Date();
+var month = x.getMonth();
 
 
 router.post('/', (req, res) => {
@@ -40,8 +41,7 @@ router.post('/', (req, res) => {
   var trouser_calf = "";
   var trouser_ankle = "";
 
-  var x = new Date();
-  var month = x.getMonth();
+
   if (utype == "Tailor") {
     var t = new tailor({
       firstname: firstname, lastname: lastname, contact: contact, email: email,

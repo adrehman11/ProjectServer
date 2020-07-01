@@ -18,7 +18,7 @@ router.post('/orderstatus', (req, res) => {
             orderStatus: orderstatus
         }
     }
-    orders.findOneAndUpdate(myquerry, newvalues, async function (error) {
+    orders.findOneAndUpdate(myquerry, newvalues, function (error) {
         if (error) {
             console.log(error)
         }
@@ -73,7 +73,7 @@ router.post('/myorder/HRP', (req, res) => {
     var tailorLocation = [];
     var image = [];
     var dresstype = [];
-
+    var TailorID = [];
     if (utype == 'Customer') {
 
         cm.find({ userID: user_ID } && { status: status }, async function (error, data12) {
@@ -84,21 +84,18 @@ router.post('/myorder/HRP', (req, res) => {
                 for (var i = 0; i < data12.length; i++) {
                     orderID.push(data12[i]._id);
                     customerID = data12[i].userID
-
-                    await tailors.findOne({ _id: data12[i].tailorID }, async function (err, dots) {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-                            lati = parseFloat(dots.lati)
-                            lng = parseFloat(dots.lngi)
-                            tailorName.push(dots.firstname + " " + dots.lastname)
-                         image.push(dots.image);
-                        }
-
-
-                    })
-               
+                    TailorID.push(data12[i].tailorID)
+                    try {
+                        var dots =   await tailors.findOne({ _id: data12[i].tailorID })
+                        lati = parseFloat(dots.lati)
+                        lng = parseFloat(dots.lngi)
+                        tailorName.push(dots.firstname + " " + dots.lastname)
+                     image.push(dots.image);
+                       
+                        
+                    } catch (err) {
+                        console.log(err)
+                    } 
                     await axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
                         .then((data1) => {
                             tailorLocation.push(data1.data.results[0].address_components[1].long_name);
@@ -119,7 +116,8 @@ router.post('/myorder/HRP', (req, res) => {
                         tailorName: tailorName[q],
                         tailorLocation: tailorLocation[q],
                         image: image[q],
-                        dresstype: dresstype[q]
+                        dresstype: dresstype[q],
+                        TailorID: TailorID[q],
 
                     }
                     resData.push(datp)
@@ -139,22 +137,19 @@ router.post('/myorder/HRP', (req, res) => {
                     orderID.push(data12[i]._id);
                     customerID = data12[i].userID
                     ordersID.push(data12[i].orderID);
-                    await users.findOne({ _id: data12[i].userID }, async function (err, dots) {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-
-                            tailorName.push(dots.firstname + " " + dots.lastname)
-                            image.push(dots.image);
-
-                        }
-
-
-                    })
+                    try {
+                        var dots =  await users.findOne({ _id: data12[i].userID })
+                        tailorName.push(dots.firstname + " " + dots.lastname)
+                        image.push(dots.image);
+                       
+                        
+                    } catch (err) {
+                        console.log(err)
+                    } 
+                    
                     orderDate.push(data12[i].orderDate);
                     dresstype.push(data12[i].dresstype);
-                    //tailorLocation.push("bahawalpur");
+                   
 
 
                 }
@@ -214,17 +209,14 @@ router.post('/myorder/pending', (req, res) => {
                 for (var i = 0; i < loi.length; i++) {
                     ordersID2.push(loi[i].orderID)
                     dresstype2.push(loi[i].dresstype)
-                    await tailors.findOne({ _id: loi[i].tailorID }, function (err, dots) {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-                            tailorName2.push(dots.firstname + " " + dots.lastname)
-                           
-                        }
-
-
-                    })
+                    try {
+                        var dots =  await tailors.findOne({ _id: loi[i].tailorID })
+                        tailorName2.push(dots.firstname + " " + dots.lastname)
+                       
+                        
+                    } catch (err) {
+                        console.log(err)
+                    }
                     
                 }
                 for (var q = 0; q < ordersID2.length; q++) {
@@ -245,20 +237,17 @@ router.post('/myorder/pending', (req, res) => {
                         for (var i = 0; i < data12.length; i++) {
                             orderID.push(data12[i]._id);
                             customerID = data12[i].userID
-        
-                            await tailors.findOne({ _id: data12[i].tailorID }, async function (err, dots) {
-                                if (err) {
-                                    console.log(err)
-                                }
-                                else {
-                                    lati = parseFloat(dots.lati)
-                                    lng = parseFloat(dots.lngi)
-                                    tailorName.push(dots.firstname + " " + dots.lastname)
-                                    image.push(dots.image);
-                                }
-        
-        
-                            })
+                            try {
+                                var dots =   await tailors.findOne({ _id: data12[i].tailorID })
+                                lati = parseFloat(dots.lati)
+                                lng = parseFloat(dots.lngi)
+                                tailorName.push(dots.firstname + " " + dots.lastname)
+                                image.push(dots.image);
+                               
+                                
+                            } catch (err) {
+                                console.log(err)
+                            }
                         
                             await axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
                                 .then((data1) => {
@@ -303,22 +292,18 @@ router.post('/myorder/pending', (req, res) => {
                     orderID.push(data12[i]._id);
                     customerID = data12[i].userID
                     ordersID.push(data12[i].orderID);
-                    await users.findOne({ _id: data12[i].userID }, async function (err, dots) {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-
-                            tailorName.push(dots.firstname + " " + dots.lastname)
+                    try {
+                        var dots =   await users.findOne({ _id: data12[i].userID })
+                        tailorName.push(dots.firstname + " " + dots.lastname)
                             image.push(dots.image);
-
-                        }
-
-
-                    })
+                       
+                        
+                    } catch (err) {
+                        console.log(err)
+                    }
+                    
                     orderDate.push(data12[i].orderDate);
                     dresstype.push(data12[i].dresstype);
-                    //tailorLocation.push("bahawalpur");
 
 
                 }
@@ -396,30 +381,27 @@ router.post('/myorder/Rejected/details', (req, res) => {
             orderStatus = data.orderStatus;
 
             if (utype == "Tailor") {
-                await users.findOne({ _id: data.userID }, function (err, data1) {
-                    if (err) {
-                        console.log(err)
-                    }
-                    else {
-                        tailorname = data1.firstname + " " + data1.lastname;
+                try {
+                    var data1 =  await users.findOne({ _id: data.userID })
+                    tailorname = data1.firstname + " " + data1.lastname;
                         contactno = "0" + data1.contact;
-
-                    }
-
-                })
+                   
+                    
+                } catch (err) {
+                    console.log(err)
+                } 
+               
             }
             else {
-                await tailors.findOne({ _id: data.tailorID }, function (err, data1) {
-                    if (err) {
-                        console.log(err)
-                    }
-                    else {
-                        tailorname = data1.firstname + " " + data1.lastname;
-                        contactno = "0" + data1.contact;
+                try {
+                    var data1 = await tailors.findOne({ _id: data.tailorID })
+                    tailorname = data1.firstname + " " + data1.lastname;
+                    contactno = "0" + data1.contact;
 
-                    }
-
-                })
+                } catch (err) {
+                    console.log(err)
+                } 
+                
             }
 
 
@@ -490,30 +472,27 @@ router.post('/myorder/peending/details', (req, res) => {
             orderStatus = data.orderStatus;
 
             if (utype == "Tailor") {
-                await users.findOne({ _id: data.userID }, function (err, data1) {
-                    if (err) {
-                        console.log(err)
-                    }
-                    else {
-                        tailorname = data1.firstname + " " + data1.lastname;
+                try {
+                    var data1 =   await users.findOne({ _id: data.userID })
+                    tailorname = data1.firstname + " " + data1.lastname;
                         contactno = "0" + data1.contact;
-
-                    }
-
-                })
+                   
+                    
+                } catch (err) {
+                    console.log(err)
+                } 
+               
             }
             else {
-                await tailors.findOne({ _id: data.tailorID }, function (err, data1) {
-                    if (err) {
-                        console.log(err)
-                    }
-                    else {
-                        tailorname = data1.firstname + " " + data1.lastname;
-                        contactno = "0" + data1.contact;
-
-                    }
-
-                })
+                try {
+                    var data1 =  await tailors.findOne({ _id: data.tailorID })
+                    tailorname = data1.firstname + " " + data1.lastname;
+                    contactno = "0" + data1.contact;
+                   
+                    
+                } catch (err) {
+                    console.log(err)
+                } 
             }
 
 
@@ -540,7 +519,7 @@ router.post('/reordertailor', (req, res) => {
     var newvalues = { $set: { orderStatus: "InProgress", OderDeadline: orderdate } };
 
     if (utype == "Tailor") {
-        orders.findOneAndUpdate(myquerry, newvalues, async function (err, data) {
+        orders.findOneAndUpdate(myquerry, newvalues, function (err, data) {
             if (err) {
                 console.log(err)
             }

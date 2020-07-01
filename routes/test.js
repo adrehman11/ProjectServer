@@ -100,18 +100,18 @@ router.post('/GetDressName', (req, res) => {
           for (var i = 0; i < da.length; i++){
             orders.push(da[i]._id);
           }
-          await order.find({userID:id},function (err,dota2kha){
-            if(err)
-            {
-              console.log(err)
+          try {
+            var dota2kha =   await order.find({userID:id})
+            
+            for (var i = 0; i < dota2kha.length; i++){
+              orders.push(dota2kha[i]._id);
             }
-            else
-            {
-                for (var i = 0; i < dota2kha.length; i++){
-            orders.push(dota2kha[i]._id);
           }
-            }
-          })
+          catch(err)
+          {
+            console.log(err)
+          }
+        
 
           for (var q = 0; q < orders.length; q++) {
             let datp = {
@@ -184,55 +184,48 @@ router.post('/picture', (req, res) => {
             console.log('Insertion fail', error);
           }
           else {
-           await tailorwork.find({ tailorID: id },function(err,resData){
-              if(err)
-              {
-                console.log(err)
+            try {
+              var resData =   await tailorwork.find({ tailorID: id })
+              if (resData === undefined || resData.length == 0) {
+                axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
+                .then((data1) => {
+
+                  res.json({
+                    message: "ok", address: data1.data.results[0].formatted_address,
+                    name: data.firstname + " " + data.lastname,
+                    contact: data.contact,
+                    DressName:data12.DressName,
+                    DressPrice:data12.DressPrice,
+                    "image": data.image,
+
+                  });
+
+                })
 
               }
               else
               {
+                axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
+                .then((data1) => {
 
-                if (resData === undefined || resData.length == 0) {
-                  axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
-                  .then((data1) => {
+                  res.json({
+                    message: "ok1", address: data1.data.results[0].formatted_address,
+                    name: data.firstname + " " + data.lastname,
+                    contact: data.contact,
+                    resData:resData,  DressName:data12.DressName,
+                    DressPrice:data12.DressPrice,
+                    "image": data.image
 
-                    res.json({
-                      message: "ok", address: data1.data.results[0].formatted_address,
-                      name: data.firstname + " " + data.lastname,
-                      contact: data.contact,
-                      DressName:data12.DressName,
-                      DressPrice:data12.DressPrice,
-                      "image": data.image,
+                  });
 
-                    });
-
-                  })
-
-                }
-                else
-                {
-                  axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
-                  .then((data1) => {
-
-                    res.json({
-                      message: "ok1", address: data1.data.results[0].formatted_address,
-                      name: data.firstname + " " + data.lastname,
-                      contact: data.contact,
-                      resData:resData,  DressName:data12.DressName,
-                      DressPrice:data12.DressPrice,
-                      "image": data.image
-
-                    });
-
-                  })
-                }
-
+                })
               }
-            })
-
-
-
+             
+              
+          } catch (err) {
+              console.log(err)
+          } 
+           
           }
         })
 

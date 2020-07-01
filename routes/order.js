@@ -5,6 +5,7 @@ const tailors = require('../models/tailor');
 const price = require('../models/price');
 const orders = require('../models/Order');
 const m = require('../models/measurements');
+const { Code } = require('mongodb');
 const axios = require('axios').default;
 var router = express.Router();
 
@@ -33,7 +34,7 @@ router.post('/requirement', (req, res) => {
     let c = date_ob.getDate() + "-" + date_ob.getMonth() + "-" + date_ob.getFullYear();
     var orderDate = c.toString();
 
-   
+
     var orders = new cm({
         userID: user_ID, tailorID: tailorID, coments: coments, orderID: orderID,
         trouserDetails: trouserDetails,
@@ -41,11 +42,11 @@ router.post('/requirement', (req, res) => {
         orderDate: orderDate, status: status, Dressprice: Dressprice,
         dresstype: dresstype, stichtype: stichtype, lace: lace, pipe: pipe, button: button, odertype: odertype, image: image, OderDeadline: OderDeadline
     })
-    orders.save(function (err,data) {
+    orders.save(function (err, data) {
         if (err) throw err;
         else {
-            console.log(data)
-            res.json({ message: "order placed",orderid:data._id,tailorid:data.tailorID });
+
+            res.json({ message: "order placed", orderid: data._id, tailorid: data.tailorID });
         }
     })
 })
@@ -109,40 +110,29 @@ router.post('/myorder/requests/details', (req, res) => {
             trouserDetails = data.trouserDetails;
             Dressprice = data.Dressprice;
 
-            await tailors.findOne({ _id: data.tailorID }, function (err, data1) {
-                if (err) {
-                    console.log(err)
-                    res.json({ message: "abc" });
-                }
-                else {
-                    tailorname = data1.firstname + " " + data1.lastname;
-                    phoneno = data1.contact;
 
-                }
+            try {
+                var data1 =    await tailors.findOne({ _id: data.tailorID })
+                tailorname = data1.firstname + " " + data1.lastname;
+                phoneno = data1.contact;
+                var data2 =await m.findOne({ userID: userID })
+                Shirt_length = data2.Shirt_length,
+                Shirt_neck = data2.Shirt_neck,
+                Shirt_chest = data2.Shirt_chest,
+                Shirt_waist = data2.Shirt_waist,
+                Shirt_backwidth = data2.Shirt_backwidth,
+                Shirt_Hips = data2.Shirt_Hips,
+                Shirt_sleeevelenght = data2.Shirt_sleeevelenght,
+                Shirt_Shoulder = data2.Shirt_Shoulder,
+                Shirt_QuaterSleeveLength = data2.Shirt_QuaterSleeveLength,
+                Shirt_wrist = data2.Shirt_wrist,
+                trouser_length = data2.trouser_length,
+                trouser_calf = data2.trouser_calf,
+                trouser_ankle = data2.trouser_ankle
+            } catch (err) {
+                console.log(err)
+            }
 
-            })
-
-            await m.findOne({ userID: userID }, function (err, data2) {
-                if (err) {
-                    console.log(err)
-                    res.json({ message: "abc" });
-                }
-                else {
-                    Shirt_length = data2.Shirt_length,
-                        Shirt_neck = data2.Shirt_neck,
-                        Shirt_chest = data2.Shirt_chest,
-                        Shirt_waist = data2.Shirt_waist,
-                        Shirt_backwidth = data2.Shirt_backwidth,
-                        Shirt_Hips = data2.Shirt_Hips,
-                        Shirt_sleeevelenght = data2.Shirt_sleeevelenght,
-                        Shirt_Shoulder = data2.Shirt_Shoulder,
-                        Shirt_QuaterSleeveLength = data2.Shirt_QuaterSleeveLength,
-                        Shirt_wrist = data2.Shirt_wrist,
-                        trouser_length = data2.trouser_length,
-                        trouser_calf = data2.trouser_calf,
-                        trouser_ankle = data2.trouser_ankle
-                }
-            })
             res.json({
                 message: "details",
                 tailorname: tailorname, phoneno: phoneno, ordersID: orderID, dresstype: dresstype, stichtype: stichtype,
@@ -185,8 +175,8 @@ router.post('/accept', (req, res) => {
     var measurementsID = "";
     var orderstartedDate = "";
     var orderStatus = "";
-   
-    
+
+
     var o;
 
     cm.findOne({ _id: oid }, async function (err, data) {
@@ -217,45 +207,42 @@ router.post('/accept', (req, res) => {
             let date_ob = new Date(ts);
             let c = date_ob.getDate() + "-" + date_ob.getMonth() + "-" + date_ob.getFullYear();
             orderstartedDate = c.toString();
+            try {
+                var data1 =   await m.findOne({ userID: userID })
+                measurementsID = data1._id
+                o = new orders({
+                    userID: userID,
+                    tailorID: tailorID,
+                    orderID: ordersID,
+                    dresstype: dresstype,
+                    stichtype: stichtype,
+                    lace: lace,
+                    pipe: pipe,
+                    button: button,
+                    odertype: odertype,
+                    image: image,
+                    orderDate: orderDates,
+                    OderDeadline: OderDeadline,
+                    coments: coments,
+                    orderStatus: orderStatus,
+                    meaurementID: measurementsID,
+                    shirtDetails: shirtDetails,
+                    trouserDetails: trouserDetails,
+                    orderstartedDate: orderstartedDate,
+                    Dressprice: Dressprice,
+                    rating: "0",
+                    ratingStatus: "NotDone"
+                })
 
-            await m.findOne({ userID: userID }, async function (err, data1) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
 
-                    measurementsID = data1._id
-                      o = new orders({
-                        userID: userID,
-                        tailorID: tailorID,
-                        orderID: ordersID,
-                        dresstype: dresstype,
-                        stichtype: stichtype,
-                        lace: lace,
-                        pipe: pipe,
-                        button: button,
-                        odertype: odertype,
-                        image: image,
-                        orderDate: orderDates,
-                        OderDeadline: OderDeadline,
-                        coments: coments,
-                        orderStatus: orderStatus,
-                        meaurementID: measurementsID,
-                        shirtDetails: shirtDetails,
-                        trouserDetails: trouserDetails,
-                        orderstartedDate: orderstartedDate,
-                        Dressprice: Dressprice,
-                        rating:"0",
-                        ratingStatus:"NotDone"
-                    })
-                }
-            })
-
+            } catch (err) {
+                console.log(err)
+            }
 
             await o.save(async function (err) {
                 if (err) {
                     console.log(err)
-                    console.log("anc")
+
                 }
                 else {
                     var status = "accepted"
@@ -306,7 +293,7 @@ router.post('/myorder/HistoryCurrent/details', (req, res) => {
     var shirtDetails = "";
     var trouserDetails = "";
     var Dressprice = "";
-    var tailorname="";
+    var tailorname = "";
     var Shirt_length = "";
     var Shirt_neck = "";
     var Shirt_chest = "";
@@ -347,62 +334,57 @@ router.post('/myorder/HistoryCurrent/details', (req, res) => {
             shirtDetails = data.shirtDetails;
             trouserDetails = data.trouserDetails;
             Dressprice = data.Dressprice;
-            measurementsID= data.meaurementID
-            orderstartedDate= data.orderDate;
-            orderStatus= data.orderStatus;
+            measurementsID = data.meaurementID
+            orderstartedDate = data.orderDate;
+            orderStatus = data.orderStatus;
 
             if (utype == "Tailor") {
-                await users.findOne({ _id: data.userID }, function (err, data1) {
-                    if (err) {
-                        console.log(err)
-                    }
-                    else {
-                        tailorname = data1.firstname + " " + data1.lastname;
-                        contactno = "0" + data1.contact;
 
-                    }
+                try {
+                    var data1 = await users.findOne({ _id: data.userID })
+                    tailorname = data1.firstname + " " + data1.lastname;
+                    contactno = "0" + data1.contact;
 
-                })
-            }
-            else {
-                await tailors.findOne({ _id: data.tailorID }, function (err, data1) {
-                    if (err) {
-                        console.log(err)
-                    }
-                    else {
-                        tailorname = data1.firstname + " " + data1.lastname;
-                        contactno = "0" + data1.contact;
-
-                    }
-
-                })
-            }
-
-
-            await m.findOne({ _id: measurementsID }, function (err, data2) {
-                if (err) {
+                } catch (err) {
                     console.log(err)
                 }
-                else {
-                    Shirt_length =data2.Shirt_length
-                   Shirt_neck =data2.Shirt_neck
-                    Shirt_chest =data2.Shirt_chest
-                     Shirt_waist =data2.Shirt_waist
-                    Shirt_backwidth =data2.Shirt_backwidth
-                     Shirt_Hips =data2.Shirt_Hips
-                 Shirt_sleeevelenght =data2.Shirt_sleeevelenght
-                     Shirt_Shoulder =data2.Shirt_Shoulder
-                     Shirt_QuaterSleeveLength =data2.Shirt_QuaterSleeveLength
-                     Shirt_wrist=data2.Shirt_wrist
-                     trouser_length=data2.trouser_length
-                     trouser_calf=data2.trouser_calf
-                     trouser_ankle =data2.trouser_ankle
+            }
+            else {
+                try {
+                    var data1 =  await tailors.findOne({ _id: data.tailorID })
+                    tailorname = data1.firstname + " " + data1.lastname;
+                    contactno = "0" + data1.contact;
+
+                } catch (err) {
+                    console.log(err)
                 }
-            })
+
+            }
+
+            try {
+                var data2 =   await m.findOne({ _id: measurementsID })
+                Shirt_length = data2.Shirt_length
+                    Shirt_neck = data2.Shirt_neck
+                    Shirt_chest = data2.Shirt_chest
+                    Shirt_waist = data2.Shirt_waist
+                    Shirt_backwidth = data2.Shirt_backwidth
+                    Shirt_Hips = data2.Shirt_Hips
+                    Shirt_sleeevelenght = data2.Shirt_sleeevelenght
+                    Shirt_Shoulder = data2.Shirt_Shoulder
+                    Shirt_QuaterSleeveLength = data2.Shirt_QuaterSleeveLength
+                    Shirt_wrist = data2.Shirt_wrist
+                    trouser_length = data2.trouser_length
+                    trouser_calf = data2.trouser_calf
+                    trouser_ankle = data2.trouser_ankle
+
+            } catch (err) {
+                console.log(err)
+            }
+
             res.json({
                 message: "details",
                 tailorname: tailorname, phoneno: contactno, ordersID: ordersID, dresstype: dresstype, stichtype: stichtype,
-                orderStatus:orderStatus,orderstartedDate:orderstartedDate,
+                orderStatus: orderStatus, orderstartedDate: orderstartedDate,
                 lace: lace, pipe: pipe, button: button, image: image, odertype: odertype, orderDate: orderDate, OderDeadline: OderDeadline,
                 coments: coments, shirtDetails: shirtDetails, trouserDetails: trouserDetails, Shirt_length: Shirt_length,
                 Shirt_neck: Shirt_neck, Shirt_chest: Shirt_chest, Shirt_waist: Shirt_waist, Shirt_backwidth: Shirt_backwidth
@@ -463,7 +445,7 @@ router.post('/myorder/requests', (req, res) => {
                 for (var i = 0; i < data12.length; i++) {
                     orderID.push(data12[i]._id);
                     customerID = data12[i].userID
-                    TailorID .push(data12[i].tailorID) 
+                    TailorID.push(data12[i].tailorID)
 
                     await tailors.findOne({ _id: data12[i].tailorID }, async function (err, dots) {
                         if (err) {
@@ -478,7 +460,7 @@ router.post('/myorder/requests', (req, res) => {
 
 
                     })
-             
+
                     await axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
                         .then((data1) => {
                             tailorLocation.push(data1.data.results[0].address_components[1].long_name);
@@ -487,7 +469,7 @@ router.post('/myorder/requests', (req, res) => {
                     orderDate.push(data12[i].orderDate);
                     ordersID.push(data12[i].orderID);
                     dresstype.push(data12[i].dresstype);
-                    //tailorLocation.push("bahawalpur");
+
 
 
                 }
@@ -499,13 +481,13 @@ router.post('/myorder/requests', (req, res) => {
                         ordersID: ordersID[q],
                         orderDate: orderDate[q],
                         tailorName: tailorName[q],
-                        TailorID:TailorID[q],
+                        TailorID: TailorID[q],
                         tailorLocation: tailorLocation[q],
                         image: image[q],
                         dresstype: dresstype[q]
 
                     }
-                   
+
                     resData.push(datp)
                 }
                 res.json({ resData: resData });
@@ -513,31 +495,25 @@ router.post('/myorder/requests', (req, res) => {
         })
     }
     if (utype == 'Tailor') {
-        cm.find({ tailorID: user_ID } && { status: status }, async function (error, data12) {
+        cm.find({ tailorID: user_ID, status: status }, async function (error, data12) {
             if (error) {
                 console.log(error);
             }
             else {
+
                 for (var i = 0; i < data12.length; i++) {
                     orderID.push(data12[i]._id);
                     customerID = data12[i].userID
+                    try {
+                        var dots = await users.findOne({ _id: data12[i].userID })
+                        tailorName.push(dots.firstname + " " + dots.lastname)
+                        image.push(dots.image);
 
-                    await users.findOne({ _id: data12[i].userID }, async function (err, dots) {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-
-                            tailorName.push(dots.firstname + " " + dots.lastname)
-                            image.push(dots.image);
-
-                        }
-
-
-                    })
+                    } catch (err) {
+                        console.log(err)
+                    }
                     orderDate.push(data12[i].orderDate);
                     dresstype.push(data12[i].dresstype);
-                    //tailorLocation.push("bahawalpur");
 
 
                 }
@@ -554,7 +530,9 @@ router.post('/myorder/requests', (req, res) => {
                     }
                     resData.push(datp)
                 }
+
                 res.json({ resData: resData });
+                res.status(200)
             }
         })
     }
@@ -572,39 +550,38 @@ router.post('/currentOrder', (req, res) => {
     var tailorName = [];
     var image = [];
     var dresstype = [];
-   
-    orders.find( async function (error, dota) {
+
+    orders.find(async function (error, dota) {
         if (error) {
             console.log(error);
         }
         else {
             for (var i = 0; i < dota.length; i++) {
-               var date= dota[i].OderDeadline
-            
-               // get system date
-               var current_datetime = new Date();
-               let formatted_date =(current_datetime.getMonth() + 1)+"/"+current_datetime.getDate() + "/" + current_datetime.getFullYear()
+                var date = dota[i].OderDeadline
 
-               var g1 = new Date(date);
-               var g2 = new Date(formatted_date); 
-         
-       
-             if (g1.getTime() < g2.getTime()) {
-                var myquerry= {_id:dota[i]._id};
-                var newvalues={$set: { orderStatus: "Pending"}}
-                  await  orders.findOneAndUpdate(myquerry,newvalues,function(err){
-                        if(err)
-                        {
+                // get system date
+                var current_datetime = new Date();
+                let formatted_date = (current_datetime.getMonth() + 1) + "/" + current_datetime.getDate() + "/" + current_datetime.getFullYear()
+
+                var g1 = new Date(date);
+                var g2 = new Date(formatted_date);
+
+
+                if (g1.getTime() < g2.getTime()) {
+                    var myquerry = { _id: dota[i]._id };
+                    var newvalues = { $set: { orderStatus: "Pending" } }
+                    await orders.findOneAndUpdate(myquerry, newvalues, function (err) {
+                        if (err) {
                             console.log(err)
                         }
                     })
-               }
+                }
             }
         }
     })
-             
+
     if (utype == "Tailor") {
-        var myquerry = { tailorID: user_ID, $or:[{ orderStatus: "InProgress"},{ orderStatus: "Cut"},{ orderStatus: "Stitch"},{ orderStatus: "Press"}] }
+        var myquerry = { tailorID: user_ID, $or: [{ orderStatus: "InProgress" }, { orderStatus: "Cut" }, { orderStatus: "Stitch" }, { orderStatus: "Press" }] }
 
         orders.find(myquerry, async function (error, data12) {
             if (error) {
@@ -614,27 +591,17 @@ router.post('/currentOrder', (req, res) => {
                 for (var i = 0; i < data12.length; i++) {
                     orderID.push(data12[i]._id);
                     customerID = data12[i].userID
-
-                    await users.findOne({ _id: data12[i].userID }, function (err, dots) {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-                            tailorName.push(dots.firstname + " " + dots.lastname)
-                        }
-                    })
-                    await users.findOne({ _id: customerID }, function (err, abc) {
-                        if (err) { console.log(err) }
-                        else {
-                            image.push(abc.image);
-
-                        }
-
-                    })
+                    try {
+                        var abc =  await users.findOne({ _id: customerID })
+                        image.push(abc.image);
+                        tailorName.push(abc.firstname + " " + abc.lastname)
+                    } catch (err) {
+                        console.log(err)
+                    }
                     orderDate.push(data12[i].orderDate);
                     ordersID.push(data12[i].orderID);
                     dresstype.push(data12[i].dresstype);
-                    //tailorLocation.push("bahawalpur");
+
 
 
                 }
@@ -653,19 +620,19 @@ router.post('/currentOrder', (req, res) => {
                     }
                     resData.push(datp)
                 }
-                
+
                 res.json({ resData: resData });
             }
         })
     }
     if (utype == "Customer") {
-        var myquerry = { userID: user_ID, $or:[{ orderStatus: "InProgress"},{ orderStatus: "Cut"},{ orderStatus: "Stitch"},{ orderStatus: "Press"}] }
+        var myquerry = { userID: user_ID, $or: [{ orderStatus: "InProgress" }, { orderStatus: "Cut" }, { orderStatus: "Stitch" }, { orderStatus: "Press" }] }
         orders.find(myquerry, async function (error, data12) {
             if (error) {
                 console.log(error);
             }
             else {
-               
+
                 for (var i = 0; i < data12.length; i++) {
                     orderID.push(data12[i]._id);
                     customerID = data12[i].tailorID
@@ -687,8 +654,6 @@ router.post('/currentOrder', (req, res) => {
 
                     })
 
-                    //tailorLocation.push("bahawalpur");
-
 
                 }
 
@@ -705,7 +670,7 @@ router.post('/currentOrder', (req, res) => {
                     }
                     resData.push(datp)
                 }
-            
+
                 res.json({ resData: resData });
             }
         })

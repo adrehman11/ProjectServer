@@ -32,8 +32,8 @@ router.get('/adminchart1',(req,res)=>{
   b=['January', 'February', 'March', 'April', 'May', 'June','Jully','August','September','October','November','December']
   var x = new Date();
   var loop = x.getMonth();
-
- var month=x.getMonth()-5
+console.log(loop)
+ var month=x.getMonth()-6
 
   faq.find().count(async function (err, number) {
     if(err)
@@ -89,7 +89,7 @@ router.get('/adminchart1',(req,res)=>{
      }
      label.reverse();
      value.reverse();
-     console.log(value)
+
      res.json({resdata1:label,resdata2:value})
     }
   })
