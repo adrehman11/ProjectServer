@@ -149,6 +149,7 @@ app.use(function(err, req, res, next) {
 
 const socketOps = require("./socketOps/socketOps.js");
 socketOps.allSocketOps(io);
-server.listen(port,()=> console.log("server listening on 3000 port"))
+const host = '0.0.0.0';
+server.listen(port,host,()=> console.log("server listening on 3000 port"))
 
 module.exports = app;
