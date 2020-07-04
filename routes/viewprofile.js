@@ -1,12 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser');
+
 const user = require('../models/user');
 const tailor = require('../models/tailor');
 
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({extended:true}));
 
     router.post('/editprofile',(req,res)=>{
       var post_data = req.body;
@@ -15,11 +13,11 @@ router.use(bodyParser.urlencoded({extended:true}));
       var fname= post_data.firstname;
       var lname= post_data.lastname;
       var contacts= post_data.contact;
-  
+
       var passwords= post_data.password;
       var myquerry= {_id:id};
       if (utype=='Customer')
-      { 
+      {
         var newvalues={firstname:fname,lastname:lname,contact:contacts,password:passwords}
         user.findOneAndUpdate(myquerry,newvalues,function(error){
           if(error)
@@ -44,7 +42,7 @@ router.use(bodyParser.urlencoded({extended:true}));
             })
           }
       })
-    
+
 
     router.post('/upload',(req,res)=>{
       //console.log(req.file);
@@ -54,7 +52,7 @@ router.use(bodyParser.urlencoded({extended:true}));
       var myquerry= {_id:id};
       var newvalues= {$set:{imagelink:imageLink}};
       if (utype=='customer')
-      { 
+      {
       user.findOneAndUpdate(myquerry,newvalues,function(error){
         if(error){
           console.log('Insertion fail',error);
@@ -80,7 +78,7 @@ router.use(bodyParser.urlencoded({extended:true}));
       }
   });
 
-  
+
 router.post('/getprofile', (req, res) => {
   var utype = req.body.utype;
   var id = req.body.id;
@@ -144,6 +142,6 @@ router.post('/getprofile', (req, res) => {
 //           }
 //       })
 //       }
-       
+
 // })
 module.exports = router;

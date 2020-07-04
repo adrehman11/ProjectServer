@@ -1,15 +1,13 @@
 var express = require('express');
 const user = require('../models/user');
 const tailor = require('../models/tailor');
-var bodyParser = require('body-parser');
+
 const nodemailer = require('nodemailer');
 const Nexmo = require('nexmo');
 require('dotenv').config()
 
 var router = express.Router();
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
 
 router.post('/', (req, res) => {
   var email = req.body.email;

@@ -1,6 +1,5 @@
 var express =require('express');
 var router = express.Router();
-var bodyParser =require('body-Parser');
 const user = require('../models/user');
 const tailor = require('../models/tailor');
 const suggestion = require('../models/suggestion');

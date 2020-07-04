@@ -3,11 +3,10 @@ const user = require('../models/user');
 const tailor = require('../models/tailor');
 const orders = require('../models/Order');
 
-var bodyParser = require('body-parser');
+
 var router = express.Router();
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
+
 //customerlogin
 
 router.post('/', (req, res) => {
@@ -44,7 +43,7 @@ router.post('/', (req, res) => {
       })
     }
     else {
-      
+
       tailor.findOne({ email: email }).count(function (err, number) {
         if (err) {
           console.log(err);
@@ -66,19 +65,19 @@ router.post('/', (req, res) => {
                   else {
                       for (var i = 0; i < data.length; i++) {
                         ratingaverage.push(parseFloat(data[i].rating ))
-                      
+
                     }
-                   
+
                     for (var q =0;q<ratingaverage.length;q++)
                     {
                       average=average+ratingaverage[q]
                     }
-                   
+
                     average=average/ratingaverage.length
-                    
+
                     average=average.toString()
                   }
-               
+
                 })
                await tailor.findOneAndUpdate({_id:data._id},{$set:{rating:average}},function(err){
                  if(err)
@@ -89,7 +88,7 @@ router.post('/', (req, res) => {
                  }
                })
                 //ratings
-               
+
               }
               else {
                 res.json({ "message": "wrong password" });
@@ -147,7 +146,7 @@ router.post('/', (req, res) => {
                   else {
                       for (var i = 0; i < data.length; i++) {
                         ratingaverage.push(parseFloat(data[i].rating ))
-                      
+
                     }
                     for (var q =0;q<ratingaverage.length;q++)
                     {
@@ -155,7 +154,7 @@ router.post('/', (req, res) => {
                     }
                     average=average/ratingaverage
                     average=average.toString()
-          
+
                   }
                 })
                 res.json({ "id": data._id, "utype": utype,rating:average,"name": data.firstname + " " + data.lastname, "message": "login confirm" });
