@@ -2,10 +2,9 @@ var express = require('express');
 var router = express.Router();
 const user = require('../models/user');
 const tailor = require('../models/tailor');
-var bodyParser =require('body-Parser');
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({extended:true}));
+
+
 
       router.post('/',(req,res)=>{
       var post_data = req.body;
@@ -39,6 +38,6 @@ else
     }
   });
 }
-     
+
     });
 module.exports=router;
