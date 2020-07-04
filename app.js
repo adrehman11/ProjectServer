@@ -150,6 +150,6 @@ app.use(function(err, req, res, next) {
 const socketOps = require("./socketOps/socketOps.js");
 socketOps.allSocketOps(io);
 const host = '0.0.0.0';
-server.listen(port,host,()=> console.log("server listening on "+port+" port"))
+server.listen(port,host,()=> console.log("server listening"))
 
 module.exports = app;
