@@ -9,6 +9,12 @@ const axios = require('axios').default;
 
 var router = express.Router();
 
+//testrouter
+router.get('/deployServer',(req,res)=>{
+  res.json({"message":"Deployed Server"})
+})
+
+
 router.post('/', (req, res) => {
   var image = req.body.image;
   var utype = req.body.utype;
@@ -102,7 +108,7 @@ router.post('/GetDressName', (req, res) => {
           }
           try {
             var dota2kha =   await order.find({userID:id})
-            
+
             for (var i = 0; i < dota2kha.length; i++){
               orders.push(dota2kha[i]._id);
             }
@@ -111,7 +117,7 @@ router.post('/GetDressName', (req, res) => {
           {
             console.log(err)
           }
-        
+
 
           for (var q = 0; q < orders.length; q++) {
             let datp = {
@@ -220,12 +226,12 @@ router.post('/picture', (req, res) => {
 
                 })
               }
-             
-              
+
+
           } catch (err) {
               console.log(err)
-          } 
-           
+          }
+
           }
         })
 
