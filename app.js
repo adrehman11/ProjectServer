@@ -25,7 +25,7 @@ var dashboardRouter2 = require('./routes/dashboard2');
 const user = require('./models/user');
 const tailor = require('./models/tailor');
 const http = require("http")
-
+require('dotenv').config()
 //practice
 
 
@@ -37,8 +37,8 @@ const io = require("socket.io")(server);
 
 
 //Connect MongoDB
-const db = require('./config/keys').mongoURI;
-
+// const db = require('./config/keys').mongoURI;
+let db=process.env.DBPASSWORD
 mongoose.connect(db,{ useNewUrlParser: true }).then(() => console.log('MongoDB Connected')).catch(err => console.log(err));
 
 // view engine setup

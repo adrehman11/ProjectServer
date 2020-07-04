@@ -3,11 +3,13 @@ var router = express.Router();
 const user = require('../models/user');
 const tailor = require('../models/tailor');
 const price = require('../models/price');
+require('dotenv').config()
 const measurement = require('../models/measurements')
 const nodemailer = require('nodemailer');
 var x = new Date();
 var month = x.getMonth();
-
+let email1= process.env.EMAIL
+let password1=process.env.PASSWORD
 
 router.post('/', (req, res) => {
   var post_data = req.body;
@@ -67,14 +69,14 @@ router.post('/', (req, res) => {
           let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user: 'adrehman10@gmail.com',
-              pass: 'PvPgHminnION123'
+              user: email1,
+              pass: password1
             }
           });
           let mailOptions = {
-            from: 'adrehman10@gmail.com',
+            from: email1,
             to: email,
-            subject: 'Sing up Complete',
+            subject: 'SignUp Complete',
             text: 'Congratulation you have created the Account on Stitchit and your password is ' + password
           };
           transporter.sendMail(mailOptions, function (err, data) {
@@ -127,14 +129,14 @@ router.post('/', (req, res) => {
           let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user: 'adrehman10@gmail.com',
-              pass: 'PvPgHminnION123'
+              user: email1,
+              pass: password1
             }
           });
           let mailOptions = {
-            from: 'adrehman10@gmail.com',
+            from: email1,
             to: email,
-            subject: 'Sing up Complete',
+            subject: 'SignUp Complete',
             text: 'Congratulation you have created the Account on Stitchit and your password is ' + password
           };
           transporter.sendMail(mailOptions, function (err, data) {
