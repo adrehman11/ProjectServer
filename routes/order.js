@@ -446,20 +446,16 @@ router.post('/myorder/requests', (req, res) => {
                     orderID.push(data12[i]._id);
                     customerID = data12[i].userID
                     TailorID.push(data12[i].tailorID)
+                    try {
+                        var dots =   await tailors.findOne({ _id: data12[i].tailorID })
+                        lati = parseFloat(dots.lati)
+                        lng = parseFloat(dots.lngi)
+                        tailorName.push(dots.firstname + " " + dots.lastname)
+                        image.push(dots.image);
 
-                    await tailors.findOne({ _id: data12[i].tailorID }, async function (err, dots) {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-                            lati = parseFloat(dots.lati)
-                            lng = parseFloat(dots.lngi)
-                            tailorName.push(dots.firstname + " " + dots.lastname)
-                            image.push(dots.image);
-                        }
-
-
-                    })
+                    } catch (err) {
+                        console.log(err)
+                    }
 
                     await axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + lng + "&key=AIzaSyB_UY8Mg65jm8F_BHOarN0wQAf1pFlqqtM")
                         .then((data1) => {

@@ -149,12 +149,8 @@ router.get('/getusers',(req,res)=>{
          name.push(dots[i].firstname+dots[i].lastname)
          utype.push("Customer")
       }
-      await   tailor.find(function (err,data){
-        if(err)
-        {
-          console.log(err)
-        }
-        else {
+      try {
+          var data =   await   tailor.find()
           for(var i=0;i<data.length;i++)
           {
              id.push(data[i]._id)
@@ -171,9 +167,10 @@ router.get('/getusers',(req,res)=>{
               }
               resdata.push(datp)
           }
-        }
-      })
 
+      } catch (err) {
+          console.log(err)
+      }
       res.json({resdata:resdata})
     }
 
