@@ -71,10 +71,12 @@ function access(req,res,next){
       {
         console.log(err);
         res.json({'message':'login again'})
+        next();
       }
       else if (number == 0)
       {
         res.json({'message':'login again'})
+        next();
       }
       else {
 
@@ -90,10 +92,12 @@ function access(req,res,next){
       {
         console.log(err);
         res.json({'message':'login again'})
+        next();
       }
       else if (number == 0)
       {
         res.json({'message':'login again'})
+        next();
       }
       else {
         next();

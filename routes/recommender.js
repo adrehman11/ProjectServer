@@ -103,14 +103,19 @@ router.post('/',(req,res)=>{
 
       }//end for
       let resData = [];
-      for (var q = aggerigate.length-1; q>aggerigate.length-4; q--) {
+      //  for (var q = aggerigate.length-1; q>aggerigate.length-4; q--)
+      tailor_ID1=tailor_ID1.reverse();
+      tailor_name1=tailor_name1.reverse();
+      tailor_rating1=tailor_rating1.reverse();
+      tailor_image1=tailor_image1.reverse();
+      for(var q=  0; q<aggerigate.length; q++) {
         var data
         {
            data = {
-            tailor_ID: tailor_ID[q],
-            tailor_name :tailor_name[q],
-            tailor_rating :tailor_rating[q],
-            tailor_image :tailor_image[q],
+            tailor_ID: tailor_ID1[q],
+            tailor_name :tailor_name1[q],
+            tailor_rating :tailor_rating1[q],
+            tailor_image :tailor_image1[q],
           }
         }
 

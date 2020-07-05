@@ -566,11 +566,11 @@ router.post('/currentOrder', (req, res) => {
                 if (g1.getTime() < g2.getTime()) {
                     var myquerry = { _id: dota[i]._id };
                     var newvalues = { $set: { orderStatus: "Pending" } }
-                    await orders.findOneAndUpdate(myquerry, newvalues, function (err) {
-                        if (err) {
-                            console.log(err)
-                        }
-                    })
+                    try {
+                       await orders.findOneAndUpdate(myquerry, newvalues)
+                    } catch (err) {
+                        console.log(err)
+                    }
                 }
             }
         }
@@ -635,22 +635,13 @@ router.post('/currentOrder', (req, res) => {
                     orderDate.push(data12[i].orderDate);
                     ordersID.push(data12[i].orderID);
                     dresstype.push(data12[i].dresstype);
-
-                    await tailors.findOne({ _id: data12[i].tailorID }, function (err, dots) {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-
-                            tailorName.push(dots.firstname + " " + dots.lastname)
-                            image.push(dots.image);
-
-                        }
-
-
-                    })
-
-
+                    try {
+                        var dots =    await tailors.findOne({ _id: data12[i].tailorID })
+                        tailorName.push(dots.firstname + " " + dots.lastname)
+                        image.push(dots.image);
+                    } catch (err) {
+                        console.log(err)
+                    }
                 }
 
                 for (var q = 0; q < orderID.length; q++) {
