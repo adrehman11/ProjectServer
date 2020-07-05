@@ -199,27 +199,15 @@ router.get('/getorders',(req,res)=>{
         tailorID=dots[i].tailorID
         OrderID.push(dots[i]._id)
         DressType.push(dots[i].dresstype)
+        try {
+            var dpts =   await user.findOne({_id:userid})
+              CustomerName.push(dpts.firstname+dpts.lastname)
+          var dpts1=   await tailor.findOne({_id:tailorID})
+        TailorName.push(dpts1.firstname+dpts1.lastname)
+        } catch (err) {
+            console.log(err)
+        }
 
-      await user.findOne({_id:userid},function(err,dpts){
-
-          if(err)
-          {
-            console.log(err);
-          }
-          else {
-            CustomerName.push(dpts.firstname+dpts.lastname)
-
-          }
-        })
-        await tailor.findOne({_id:tailorID},function(err,dpts1){
-          if(err)
-          {
-            console.log(err);
-          }
-          else {
-            TailorName.push(dpts1.firstname+dpts1.lastname)
-          }
-        })
       }
       for (var q = 0; q < OrderID.length; q++) {
           let datp = {
@@ -246,7 +234,7 @@ router.get('/getsuggestion',(req,res)=>{
   var Status=[]
   var resdata=[]
 
-  suggest.find(async function (err, dots) {
+  suggest.find(function (err, dots) {
     if(err)
     {
       cosole.log(err)
@@ -282,7 +270,7 @@ router.get('/getproblems',(req,res)=>{
   var Status=[]
   var resdata=[]
 
-  problem.find(async function (err, dots) {
+  problem.find( function (err, dots) {
     if(err)
     {
       cosole.log(err)
