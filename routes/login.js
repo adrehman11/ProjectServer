@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
   var userpassword = post_data.password;
   if (email.includes("@")) {
     if (utype == 'Customer') {
-      user.findOne({ email: email }).count(function (err, number) {
+      user.findOne({ email: email }).count(async function (err, number) {
         if (err) {
           console.log(err);
           res.json({ 'message': 'something went wrong' })
@@ -28,23 +28,27 @@ router.post('/', (req, res) => {
             res.json({ "message": "Email does not exsist" });
             console.log('Email not exists')
           } else {
-            user.findOne({ email: email }, function (err, users) {
-              if (userpassword == users.password) {
-                res.json({ "id": users._id, "utype": utype,rating:"0.0", "name": users.firstname + " " + users.lastname, "message": "login confirm" });
-                console.log('login success')
-              }
-              else {
-                res.json({ "message": "wrong password" });
+            try {
+                var users =   await   user.findOne({ email: email })
+                if (userpassword == users.password) {
+                  res.json({ "id": users._id, "utype": utype,rating:"0.0", "name": users.firstname + " " + users.lastname, "message": "login confirm" });
+                  console.log('login success')
+                }
+                else {
+                  res.json({ "message": "wrong password" });
+                }
+
+            } catch (err) {
                 console.log(err)
-              }
-            })
+            }
+
           }
         }
       })
     }
     else {
 
-      tailor.findOne({ email: email }).count(function (err, number) {
+      tailor.findOne({ email: email }).count(async function (err, number) {
         if (err) {
           console.log(err);
           res.json({ 'message': 'something went wrong' })
@@ -54,47 +58,34 @@ router.post('/', (req, res) => {
             res.json({ "message": "Email does not exsist" });
             console.log('Email not exists')
           } else {
-            tailor.findOne({ email: email },async function (err, data) {
-              if (userpassword == data.password) {
-                //ordersrating
-                console.log(data._id)
-                await orders.find({ tailorID: data._id } , { ratingStatus: "RatingDone" }, function (err, data) {
-                  if (err) {
-                    console.log(err)
-                  }
-                  else {
-                      for (var i = 0; i < data.length; i++) {
-                        ratingaverage.push(parseFloat(data[i].rating ))
+            try {
+                var data =   await tailor.findOne({ email: email })
+                if (userpassword == data.password) {
+                  var datas = await orders.find({ tailorID: data._id } , { ratingStatus: "RatingDone" })
+                    for (var i = 0; i < datas.length; i++) {
+                      ratingaverage.push(parseFloat(datas[i].rating ))}
+                      for (var q =0;q<ratingaverage.length;q++)
+                      {
+                        average=average+ratingaverage[q]
+                      }
+                      average=average/ratingaverage.length
+                      average=average.toString()
 
-                    }
 
-                    for (var q =0;q<ratingaverage.length;q++)
-                    {
-                      average=average+ratingaverage[q]
-                    }
 
-                    average=average/ratingaverage.length
+                 await tailor.findOneAndUpdate({_id:data._id},{$set:{rating:average}})
+                    res.json({ "id": data._id, "utype": utype, "name": data.firstname + " " + data.lastname,rating:average, "message": "login confirm" });
+                    console.log('login success')
 
-                    average=average.toString()
-                  }
+                }
+                else {
+                  res.json({ "message": "wrong password" });
+                  console.log("wrong password")
+                }
 
-                })
-               await tailor.findOneAndUpdate({_id:data._id},{$set:{rating:average}},function(err){
-                 if(err)
-                 {console.log(err)}
-                 else{
-                  res.json({ "id": data._id, "utype": utype, "name": data.firstname + " " + data.lastname,rating:average, "message": "login confirm" });
-                  console.log('login success')
-                 }
-               })
-                //ratings
-
-              }
-              else {
-                res.json({ "message": "wrong password" });
-                console.log("wrong password")
-              }
-            })
+            } catch (err) {
+                console.log(err)
+            }
           }
         }
       })
@@ -102,7 +93,7 @@ router.post('/', (req, res) => {
   }
   else {
     if (utype == 'Customer') {
-      user.findOne({ contact: email }).count(function (err, number) {
+      user.findOne({ contact: email }).count(async function (err, number) {
         if (err) {
           console.log(err);
           res.json({ 'message': 'something went wrong' })
@@ -112,22 +103,26 @@ router.post('/', (req, res) => {
             res.json({ "message": "Email does not exsist" });
             console.log('Email not exists')
           } else {
-            user.findOne({ contact: email }, function (err, users) {
-              if (userpassword == users.password) {
-                res.json({ "id": users._id, "utype": utype,rating:"0.0", "name": users.firstname + " " + users.lastname, "message": "login confirm" });
-                console.log('login success')
-              }
-              else {
-                res.json({ "message": "wrong password" });
+            try {
+                var users =   await user.findOne({ contact: email })
+                if (userpassword == users.password) {
+                  res.json({ "id": users._id, "utype": utype,rating:"0.0", "name": users.firstname + " " + users.lastname, "message": "login confirm" });
+                  console.log('login success')
+                }
+                else {
+                  res.json({ "message": "wrong password" });
+                  console.log(err)
+                }
+
+            } catch (err) {
                 console.log(err)
-              }
-            })
+            }
           }
         }
       })
     }
     else {
-      tailor.findOne({ contact: email }).count(function (err, number) {
+      tailor.findOne({ contact: email }).count(async function (err, number) {
         if (err) {
           console.log(err);
           res.json({ 'message': 'something went wrong' })
@@ -137,15 +132,13 @@ router.post('/', (req, res) => {
             res.json({ "message": "Email does not exsist" });
             console.log('Email not exists')
           } else {
-            tailor.findOne({ contact: email }, async function (err, data) {
+            try {
+              var data =await tailor.findOne({ contact: email })
               if (userpassword == data.password) {
-                await orders.find({ tailorID: data._id } && { ratingStatus: "RatingDone" }, function (err, data) {
-                  if (err) {
-                    console.log(err)
-                  }
-                  else {
-                      for (var i = 0; i < data.length; i++) {
-                        ratingaverage.push(parseFloat(data[i].rating ))
+                var dats=await orders.find({ tailorID: data._id } && { ratingStatus: "RatingDone" })
+
+                      for (var i = 0; i < dats.length; i++) {
+                        ratingaverage.push(parseFloat(dats[i].rating ))
 
                     }
                     for (var q =0;q<ratingaverage.length;q++)
@@ -155,8 +148,8 @@ router.post('/', (req, res) => {
                     average=average/ratingaverage
                     average=average.toString()
 
-                  }
-                })
+
+
                 res.json({ "id": data._id, "utype": utype,rating:average,"name": data.firstname + " " + data.lastname, "message": "login confirm" });
                 console.log('login success')
               }
@@ -164,7 +157,11 @@ router.post('/', (req, res) => {
                 res.json({ "message": "wrong password" });
                 console.log("wrong password")
               }
-            })
+
+            } catch (err) {
+                console.log(err)
+            }
+      
           }
         }
       })

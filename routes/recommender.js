@@ -61,6 +61,7 @@ router.post('/',(req,res)=>{
 
 
       }
+      console.log(distanceinmeter)
 
       for(var l = 0; l<distanceinmeter.length; l++){
          var counts= distanceinmeter[l]+parseFloat(tailor_rating[l])
