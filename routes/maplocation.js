@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
   var tailor_lati1 = [];
   var tailor_lngi1 = [];
   var distanceinmeter = [];
-  tailor.find(async function (err, data) {
+  tailor.find(function (err, data) {
     if (err) {
       console.log(err)
     }
@@ -73,7 +73,7 @@ router.post('/', (req, res) => {
 
       }//end for
       let resData = [];
-      for (var q = 0; q < 5; q++) {
+      for (var q = 0; q <tailor_ID1.length; q++) {
         let data = {
           tailor_ID: tailor_ID1[q],
           tailor_lati: tailor_lati1[q],
