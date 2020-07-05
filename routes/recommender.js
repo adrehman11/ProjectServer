@@ -43,7 +43,6 @@ router.post('/',(req,res)=>{
         var tolngi = parseFloat(tailor_lngi[j]);
       var distance=geolib.getDistance({ latitude: fromlat, longitude: fromlng }, { latitude: tolati, longitude: tolngi })
 
-         console.log("distance"+distance/1000)
          distanceinmeter.push(distance / 1000)
       }
 
@@ -107,7 +106,7 @@ router.post('/',(req,res)=>{
         resData.push(data)
 
       }
-    
+    console.log(resData);
       res.json({ resData: resData });
     }//end else
 
