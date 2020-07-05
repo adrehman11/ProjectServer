@@ -17,7 +17,13 @@ router.post('/',(req,res)=>{
   var distanceinmeter = [];
   var tailor_image = [];
   var aggerigate =[];
-  tailor.find(async function (err, data) {
+  var tailor_ID1 = [];
+  var tailor_rating1= [];
+  var tailor_name1= [];
+  var distanceinmeter1 = [];
+  var tailor_image1 = [];
+
+  tailor.find(function (err, data) {
     if (err) {
       console.log(err)
     }
@@ -42,13 +48,24 @@ router.post('/',(req,res)=>{
         var tolati = parseFloat(tailor_lati[j]);
         var tolngi = parseFloat(tailor_lngi[j]);
       var distance=geolib.getDistance({ latitude: fromlat, longitude: fromlng }, { latitude: tolati, longitude: tolngi })
+        var dis = distance/1000
+        if(dis<=150)
+        {
+          distanceinmeter.push(dis)
+          tailor_ID1.push(tailor_ID[j])
+          tailor_image1.push(tailor_image[j])
+          tailor_rating1.push(tailor_rating[j])
+          tailor_name1.push(tailor_name[j])
 
-         distanceinmeter.push(distance / 1000)
+        }
+
+
       }
 
       for(var l = 0; l<distanceinmeter.length; l++){
          var counts= distanceinmeter[l]+parseFloat(tailor_rating[l])
-         aggerigate.push(counts/2)
+         var agge=counts/2
+         aggerigate.push(agge)
       }
 
       var mintemp1;
@@ -64,29 +81,22 @@ router.post('/',(req,res)=>{
           aggerigate[mintemp1] = aggerigate[k];
           aggerigate[k] = b;
 
-          var c = tailor_ID[mintemp1];
-          tailor_ID[mintemp1] = tailor_ID[k];
-          tailor_ID[k] = c;
+          var c = tailor_ID1[mintemp1];
+          tailor_ID1[mintemp1] = tailor_ID1[k];
+          tailor_ID1[k] = c;
 
-          var d = tailor_lati[mintemp1];
-          tailor_lati[mintemp1] = tailor_lati[k];
-          tailor_lati[k] = d;
 
-          var g = tailor_lngi[mintemp1];
-          tailor_lngi[mintemp1] = tailor_lngi[k];
-          tailor_lngi[k] = g;
+          var g = tailor_rating1[mintemp1];
+          tailor_rating1[mintemp1] = tailor_rating1[k];
+          tailor_rating1[k] = g;
 
-          var g = tailor_rating[mintemp1];
-          tailor_rating[mintemp1] = tailor_rating[k];
-          tailor_rating[k] = g;
+          var g = tailor_name1[mintemp1];
+          tailor_name1[mintemp1] = tailor_name1[k];
+          tailor_name1[k] = g;
 
-          var g = tailor_name[mintemp1];
-          tailor_name[mintemp1] = tailor_name[k];
-          tailor_name[k] = g;
-
-          var g = tailor_image[mintemp1];
-          tailor_image[mintemp1] = tailor_image[k];
-          tailor_image[k] = g;
+          var g = tailor_image1[mintemp1];
+          tailor_image1[mintemp1] = tailor_image[k];
+          tailor_image1[k] = g;
         }
 
 
