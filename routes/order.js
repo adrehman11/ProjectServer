@@ -437,7 +437,7 @@ router.post('/myorder/requests', (req, res) => {
     var dresstype = [];
 
     if (utype == 'Customer') {
-        cm.find({ userID: user_ID } && { status: status }, async function (error, data12) {
+        cm.find({ userID: user_ID ,status: status }, async function (error, data12) {
             if (error) {
                 console.log(error);
             }
