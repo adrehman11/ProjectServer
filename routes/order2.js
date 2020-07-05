@@ -199,7 +199,7 @@ router.post('/myorder/pending', (req, res) => {
     var resdata2=[];
 
     if (utype == 'Customer') {
-        console.log(user_ID)
+  
         orders.find({ $and: [ { userID:user_ID }, { ratingStatus:"NotDone" },{orderStatus:"Finish"} ] },async function(err,loi){
             if(err)
             {
@@ -229,7 +229,7 @@ router.post('/myorder/pending', (req, res) => {
                     resdata2.push(datp)
                 }
                 console.log(resdata2);
-               await orders.find({ userID: user_ID } && { orderStatus: status }, async function (error, data12) {
+               await orders.find({ userID: user_ID,orderStatus: status }, async function (error, data12) {
                     if (error) {
                         console.log(error);
                     }
