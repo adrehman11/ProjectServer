@@ -85,7 +85,7 @@ function access(req,res,next){
 
  })
   }
-  if(utype=="Tailor")
+ else if(utype=="Tailor")
   {
     tailor.findOne({_id: id}).count(function(err, number){
       if(err)
@@ -104,6 +104,9 @@ function access(req,res,next){
       }
 
  })
+  }
+  else {
+    next()
   }
 }
 
@@ -149,6 +152,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   console.log(err);
   res.json({'message':"error"});
+  next();
 });
 
 const socketOps = require("./socketOps/socketOps.js");
