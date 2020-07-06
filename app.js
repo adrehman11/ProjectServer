@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 //const session = require('express-session');
-
+//./bin/www
 var signupRouter = require('./routes/signup');
 var loginRouter = require('./routes/login');
 var forgetRouter = require('./routes/forgetpassword');
