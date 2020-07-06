@@ -134,7 +134,7 @@ router.post('/', (req, res) => {
             }
           });
           let mailOptions = {
-            from: "suidhagakenchii@gmail.com"
+            from: "suidhagakenchii@gmail.com",
             to: email,
             subject: 'SignUp Complete',
             text: 'Congratulation you have created the Account on Stitchit and your password is ' + password
