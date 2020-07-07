@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
       var distance=geolib.getDistance({ latitude: fromlat, longitude: fromlng }, { latitude: tolati, longitude: tolngi })
       var dis = distance/1000
 
-         if(dis<=100)
+         if(dis<=60)
          {
          distanceinmeter.push(dis)
          tailor_ID1.push(tailor_ID[j])

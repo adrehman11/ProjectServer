@@ -49,7 +49,7 @@ router.post('/',(req,res)=>{
         var tolngi = parseFloat(tailor_lngi[j]);
       var distance=geolib.getDistance({ latitude: fromlat, longitude: fromlng }, { latitude: tolati, longitude: tolngi })
         var dis = distance/1000
-        if(dis<=150)
+        if(dis<=100)
         {
           distanceinmeter.push(dis)
           tailor_ID1.push(tailor_ID[j])
@@ -108,7 +108,7 @@ router.post('/',(req,res)=>{
       tailor_name1=tailor_name1.reverse();
       tailor_rating1=tailor_rating1.reverse();
       tailor_image1=tailor_image1.reverse();
-      for(var q=  0; q<aggerigate.length; q++) {
+      for(var q=  0; q<3; q++) {
         var data
         {
            data = {
