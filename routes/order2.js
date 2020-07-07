@@ -170,7 +170,7 @@ router.post('/myorder/HRP', (req, res) => {
                 console.log(resData);
                 res.json({ resData: resData });
             }
-        })
+        }) 
     }
 
 })
