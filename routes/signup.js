@@ -129,12 +129,12 @@ router.post('/', (req, res) => {
           let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user: "suidhagakenchii@gmail.com",
-              pass:"sdk1711alm"
+              user: email1,
+              pass:password1
             }
           });
           let mailOptions = {
-            from: "suidhagakenchii@gmail.com",
+            from: email1,
             to: email,
             subject: 'SignUp Complete',
             text: 'Congratulation you have created the Account on Stitchit and your password is ' + password
