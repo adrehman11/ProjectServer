@@ -109,7 +109,8 @@ router.post('/',(req,res)=>{
       tailor_rating1=tailor_rating1.reverse();
       tailor_image1=tailor_image1.reverse();
       aggerigate= aggerigate.reverse();
-      console.log(aggerigate)
+    if(aggerigate.length>=3)
+    {
       for(var q=  0; q<3; q++) {
         var data
         {
@@ -124,6 +125,25 @@ router.post('/',(req,res)=>{
         resData.push(data)
 
       }
+    }
+    else if(aggerigate.length<3)
+    {
+      for(var q=  0; q<aggerigate.length; q++) {
+        var data
+        {
+           data = {
+            tailor_ID: tailor_ID1[q],
+            tailor_name :tailor_name1[q],
+            tailor_rating :tailor_rating1[q],
+            tailor_image :tailor_image1[q],
+          }
+        }
+
+        resData.push(data)
+
+      }
+    }
+
 
       res.json({ resData: resData });
     }//end else
