@@ -21,7 +21,7 @@ function sendemail(email){
     }
   });
   let mailOptions = {
-    from:adminemail,
+    from:"Email",
     to: email,
     subject: 'warning',
     text: 'warning'
@@ -281,7 +281,7 @@ router.post('/sendReponse',(req,res)=>{
           }
         });
         let mailOptions = {
-          from: adminemail,
+          from: "Stitchit",
           to:email,
           subject: 'Suggestion',
           text: msg
@@ -344,7 +344,7 @@ router.post('/sendReponse',(req,res)=>{
           }
         });
         let mailOptions = {
-          from: adminemail,
+            from: "Stitchit",
           to:email,
           subject: 'Problem',
           text: msg
