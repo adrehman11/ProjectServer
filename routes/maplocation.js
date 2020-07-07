@@ -82,7 +82,7 @@ router.post('/', (req, res) => {
         resData.push(data)
 
       }
-      console.log(resData);
+
       res.json({ resData: resData });
     }//end else
 
