@@ -61,14 +61,14 @@ router.post('/',(req,res)=>{
 
 
       }
-      console.log(distanceinmeter)
+
 
       for(var l = 0; l<distanceinmeter.length; l++){
          var counts= distanceinmeter[l]+parseFloat(tailor_rating[l])
          var agge=counts/2
          aggerigate.push(agge)
       }
-
+console.log(aggerigate)
       var mintemp1;
       for (var k = 0; k < aggerigate.length; k++) {
         mintemp1 = k;
@@ -122,7 +122,7 @@ router.post('/',(req,res)=>{
         resData.push(data)
 
       }
-  
+
       res.json({ resData: resData });
     }//end else
 
