@@ -68,7 +68,7 @@ router.post('/',(req,res)=>{
          var agge=counts/2
          aggerigate.push(agge)
       }
-console.log(aggerigate)
+
       var mintemp1;
       for (var k = 0; k < aggerigate.length; k++) {
         mintemp1 = k;
@@ -108,6 +108,8 @@ console.log(aggerigate)
       tailor_name1=tailor_name1.reverse();
       tailor_rating1=tailor_rating1.reverse();
       tailor_image1=tailor_image1.reverse();
+      aggerigate= aggerigate.reverse();
+      console.log(aggerigate)
       for(var q=  0; q<3; q++) {
         var data
         {
