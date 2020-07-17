@@ -10,7 +10,7 @@ const axios = require('axios').default;
 var router = express.Router();
 
 router.post('/requirement', (req, res) => {
-    var user_ID = req.body.id;
+    var user_ID = req.body.id; 
     var shirtDetails = req.body.shirtdetails;
     var trouserDetails = req.body.trouserdetails;
     var tailorID = req.body.tailorid;
@@ -528,7 +528,7 @@ router.post('/myorder/requests', (req, res) => {
                 }
                 console.log(resData)
                 res.json({ resData: resData });
-                
+
             }
         })
     }
