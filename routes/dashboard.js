@@ -201,7 +201,7 @@ router.get('/getorders',(req,res)=>{
         DressType.push(dots[i].dresstype)
         try {
             var dpts =   await user.findOne({_id:userid})
-            console.log(dpts)
+      
               CustomerName.push(dpts.firstname+dpts.lastname)
 
         } catch (err) {
