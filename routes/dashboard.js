@@ -203,6 +203,11 @@ router.get('/getorders',(req,res)=>{
             var dpts =   await user.findOne({_id:userid})
             console.log(dpts)
               CustomerName.push(dpts.firstname+dpts.lastname)
+
+        } catch (err) {
+            console.log(err)
+        }
+        try {
           var dpts1=   await tailor.findOne({_id:tailorID})
         TailorName.push(dpts1.firstname+dpts1.lastname)
         } catch (err) {
