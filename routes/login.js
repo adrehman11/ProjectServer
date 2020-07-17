@@ -61,7 +61,7 @@ router.post('/', (req, res) => {
             try {
                 var data =   await tailor.findOne({ email: email })
                 if (userpassword == data.password) {
-                  var datas = await orders.find({ tailorID: data._id } , { ratingStatus: "RatingDone" })
+                  var datas = await orders.find({ tailorID: data._id  , ratingStatus: "RatingDone" })
                     for (var i = 0; i < datas.length; i++) {
                       ratingaverage.push(parseFloat(datas[i].rating ))}
                       for (var q =0;q<ratingaverage.length;q++)
@@ -135,7 +135,7 @@ router.post('/', (req, res) => {
             try {
               var data =await tailor.findOne({ contact: email })
               if (userpassword == data.password) {
-                var dats=await orders.find({ tailorID: data._id } && { ratingStatus: "RatingDone" })
+                var dats=await orders.find({ tailorID: data._id ,ratingStatus: "RatingDone" })
 
                       for (var i = 0; i < dats.length; i++) {
                         ratingaverage.push(parseFloat(dats[i].rating ))
@@ -161,7 +161,7 @@ router.post('/', (req, res) => {
             } catch (err) {
                 console.log(err)
             }
-      
+
           }
         }
       })
