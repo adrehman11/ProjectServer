@@ -526,9 +526,9 @@ router.post('/myorder/requests', (req, res) => {
                     }
                     resData.push(datp)
                 }
-
+                console.log(resData)
                 res.json({ resData: resData });
-                res.status(200)
+                
             }
         })
     }
