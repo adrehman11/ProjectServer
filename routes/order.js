@@ -22,6 +22,7 @@ router.post('/requirement', (req, res) => {
          if(data.Shirt_length=="")
          {
             res.json({ message: "Null Value"})
+            console.log("nullvalue")
          }
          else {
            var shirtDetails = req.body.shirtdetails;
@@ -55,13 +56,14 @@ router.post('/requirement', (req, res) => {
                orderDate: orderDate, status: status, Dressprice: Dressprice,
                dresstype: dresstype, stichtype: stichtype, lace: lace, pipe: pipe, button: button, odertype: odertype, image: image, OderDeadline: OderDeadline
            })
-           await orders.save(function (err, data) {
-               if (err) throw err;
-               else {
+           try {
+               var data1 = await orders.save()
+              res.json({ message: "order placed", orderid: data._id, tailorid: data.tailorID });
 
-                   res.json({ message: "order placed", orderid: data._id, tailorid: data.tailorID });
-               }
-           })
+           } catch (err) {
+               console.log(err)
+           }
+        
          }
        }
      })
