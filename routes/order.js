@@ -10,7 +10,17 @@ const axios = require('axios').default;
 var router = express.Router();
 
 router.post('/requirement', (req, res) => {
-    var user_ID = req.body.id; 
+
+    var user_ID = req.body.id;
+     m.findOne({ userID: user_ID },function(err,data){
+       if(err)
+       {
+         console.log(err)
+       }
+       else {
+        console.log( data.Shirt_length);
+       }
+     })
     var shirtDetails = req.body.shirtdetails;
     var trouserDetails = req.body.trouserdetails;
     var tailorID = req.body.tailorid;
