@@ -21,7 +21,7 @@ router.post('/requirement', (req, res) => {
 
          if(data.Shirt_length=="")
          {
-           console.log("null value")
+            res.json({ message: "Null Value"})
          }
          else {
            var shirtDetails = req.body.shirtdetails;
