@@ -10,7 +10,19 @@ const axios = require('axios').default;
 var router = express.Router();
 
 router.post('/requirement', (req, res) => {
-
+  var Shirt_length = "";
+  var Shirt_neck = "";
+  var Shirt_chest = "";
+  var Shirt_waist = "";
+  var Shirt_backwidth = "";
+  var Shirt_Hips = "";
+  var Shirt_sleeevelenght = "";
+  var Shirt_Shoulder = "";
+  var Shirt_QuaterSleeveLength = "";
+  var Shirt_wrist = "";
+  var trouser_length = "";
+  var trouser_calf = "";
+  var trouser_ankle = "";
     var user_ID = req.body.id;
      m.findOne({ userID: user_ID },async function(err,data){
        if(err)
@@ -19,12 +31,28 @@ router.post('/requirement', (req, res) => {
        }
        else {
 
-         if(data.Shirt_length=="")
+         if(data.Shirt_length==""|| data.Shirt_neck==""|| data.Shirt_chest==""|| data.Shirt_waist==""||
+       data.Shirt_backwidth==""|| data.Shirt_Hips==""|| data.Shirt_sleeevelenght==""|| data.Shirt_Shoulder==""||
+       data.Shirt_QuaterSleeveLength==""|| data.Shirt_wrist==""|| data.trouser_length==""|| data.trouser_calf==""||
+       data.trouser_ankle=="")
          {
             res.json({ message: "Null Value"})
             console.log("nullvalue")
          }
          else {
+           Shirt_length = data.Shirt_length,
+           Shirt_neck = data.Shirt_neck,
+           Shirt_chest = data.Shirt_chest,
+           Shirt_waist = data.Shirt_waist,
+           Shirt_backwidth = data.Shirt_backwidth,
+           Shirt_Hips = data.Shirt_Hips,
+           Shirt_sleeevelenght = data.Shirt_sleeevelenght,
+           Shirt_Shoulder = data.Shirt_Shoulder,
+           Shirt_QuaterSleeveLength = data.Shirt_QuaterSleeveLength,
+           Shirt_wrist = data.Shirt_wrist,
+           trouser_length = data.trouser_length,
+           trouser_calf = data.trouser_calf,
+           trouser_ankle = data.trouser_ankle
            var shirtDetails = req.body.shirtdetails;
            var trouserDetails = req.body.trouserdetails;
            var tailorID = req.body.tailorid;
@@ -54,7 +82,19 @@ router.post('/requirement', (req, res) => {
                trouserDetails: trouserDetails,
                shirtDetails: shirtDetails,
                orderDate: orderDate, status: status, Dressprice: Dressprice,
-               dresstype: dresstype, stichtype: stichtype, lace: lace, pipe: pipe, button: button, odertype: odertype, image: image, OderDeadline: OderDeadline
+               dresstype: dresstype, stichtype: stichtype, lace: lace, pipe: pipe,
+                button: button, odertype: odertype, image: image, OderDeadline: OderDeadline
+                ,Shirt_length:Shirt_length,
+                 Shirt_neck:Shirt_neck,
+                Shirt_chest:Shirt_chest,
+                  Shirt_waist:Shirt_waist,
+                  Shirt_backwidth:Shirt_backwidth,
+                   Shirt_Hips:Shirt_Hips,
+                   Shirt_sleeevelenght:Shirt_sleeevelenght,
+                   Shirt_Shoulder:Shirt_Shoulder,
+                   Shirt_QuaterSleeveLength:Shirt_QuaterSleeveLength,
+                   Shirt_wrist:Shirt_wrist,
+                   trouser_length:trouser_length,trouser_calf:trouser_calf,trouser_ankle:trouser_ankle
            })
            try {
                var data1 = await orders.save()
@@ -128,26 +168,25 @@ router.post('/myorder/requests/details', (req, res) => {
             shirtDetails = data.shirtDetails;
             trouserDetails = data.trouserDetails;
             Dressprice = data.Dressprice;
+            Shirt_length = data.Shirt_length,
+            Shirt_neck = data.Shirt_neck,
+            Shirt_chest = data.Shirt_chest,
+            Shirt_waist = data.Shirt_waist,
+            Shirt_backwidth = data.Shirt_backwidth,
+            Shirt_Hips = data.Shirt_Hips,
+            Shirt_sleeevelenght = data.Shirt_sleeevelenght,
+            Shirt_Shoulder = data.Shirt_Shoulder,
+            Shirt_QuaterSleeveLength = data.Shirt_QuaterSleeveLength,
+            Shirt_wrist = data.Shirt_wrist,
+            trouser_length = data.trouser_length,
+            trouser_calf = data.trouser_calf,
+            trouser_ankle = data.trouser_ankle
 
 
             try {
                 var data1 =    await tailors.findOne({ _id: data.tailorID })
                 tailorname = data1.firstname + " " + data1.lastname;
                 phoneno = data1.contact;
-                var data2 =await m.findOne({ userID: userID })
-                Shirt_length = data2.Shirt_length,
-                Shirt_neck = data2.Shirt_neck,
-                Shirt_chest = data2.Shirt_chest,
-                Shirt_waist = data2.Shirt_waist,
-                Shirt_backwidth = data2.Shirt_backwidth,
-                Shirt_Hips = data2.Shirt_Hips,
-                Shirt_sleeevelenght = data2.Shirt_sleeevelenght,
-                Shirt_Shoulder = data2.Shirt_Shoulder,
-                Shirt_QuaterSleeveLength = data2.Shirt_QuaterSleeveLength,
-                Shirt_wrist = data2.Shirt_wrist,
-                trouser_length = data2.trouser_length,
-                trouser_calf = data2.trouser_calf,
-                trouser_ankle = data2.trouser_ankle
             } catch (err) {
                 console.log(err)
             }
@@ -172,6 +211,20 @@ router.post('/myorder/requests/details', (req, res) => {
 router.post('/accept', (req, res) => {
     var oid = req.body.oid;
     var id = req.body.id;
+
+    var Shirt_length = "";
+    var Shirt_neck = "";
+    var Shirt_chest = "";
+    var Shirt_waist = "";
+    var Shirt_backwidth = "";
+    var Shirt_Hips = "";
+    var Shirt_sleeevelenght = "";
+    var Shirt_Shoulder = "";
+    var Shirt_QuaterSleeveLength = "";
+    var Shirt_wrist = "";
+    var trouser_length = "";
+    var trouser_calf = "";
+    var trouser_ankle = "";
 
     var tailorID = "";
     var userID = "";
@@ -221,6 +274,19 @@ router.post('/accept', (req, res) => {
             Dressprice = data.Dressprice;
             userID = data.userID;
             orderStatus = "InProgress";
+            Shirt_length = data.Shirt_length,
+            Shirt_neck = data.Shirt_neck,
+            Shirt_chest = data.Shirt_chest,
+            Shirt_waist = data.Shirt_waist,
+            Shirt_backwidth = data.Shirt_backwidth,
+            Shirt_Hips = data.Shirt_Hips,
+            Shirt_sleeevelenght = data.Shirt_sleeevelenght,
+            Shirt_Shoulder = data.Shirt_Shoulder,
+            Shirt_QuaterSleeveLength = data.Shirt_QuaterSleeveLength,
+            Shirt_wrist = data.Shirt_wrist,
+            trouser_length = data.trouser_length,
+            trouser_calf = data.trouser_calf,
+            trouser_ankle = data.trouser_ankle
 
             let ts = Date.now();
             let date_ob = new Date(ts);
@@ -228,7 +294,6 @@ router.post('/accept', (req, res) => {
             orderstartedDate = c.toString();
             try {
                 var data1 =   await m.findOne({ userID: userID })
-                measurementsID = data1._id
                 o = new orders({
                     userID: userID,
                     tailorID: tailorID,
@@ -244,13 +309,23 @@ router.post('/accept', (req, res) => {
                     OderDeadline: OderDeadline,
                     coments: coments,
                     orderStatus: orderStatus,
-                    meaurementID: measurementsID,
                     shirtDetails: shirtDetails,
                     trouserDetails: trouserDetails,
                     orderstartedDate: orderstartedDate,
                     Dressprice: Dressprice,
                     rating: "0",
                     ratingStatus: "NotDone"
+                    ,Shirt_length:Shirt_length,
+                     Shirt_neck:Shirt_neck,
+                    Shirt_chest:Shirt_chest,
+                      Shirt_waist:Shirt_waist,
+                      Shirt_backwidth:Shirt_backwidth,
+                       Shirt_Hips:Shirt_Hips,
+                       Shirt_sleeevelenght:Shirt_sleeevelenght,
+                       Shirt_Shoulder:Shirt_Shoulder,
+                       Shirt_QuaterSleeveLength:Shirt_QuaterSleeveLength,
+                       Shirt_wrist:Shirt_wrist,
+                       trouser_length:trouser_length,trouser_calf:trouser_calf,trouser_ankle:trouser_ankle
                 })
 
 

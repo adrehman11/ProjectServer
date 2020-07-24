@@ -4,7 +4,7 @@ var schema = mongoose.Schema
 var CustomerRequirementSchema = new mongoose.Schema({
   userID: {
     type: String,
-    
+
   },
   tailorID :{
     type: String,
@@ -14,11 +14,11 @@ var CustomerRequirementSchema = new mongoose.Schema({
   },
   shirtDetails: {
     type: String,
-    
+
   },
  trouserDetails: {
     type: String,
-    
+
   }
   ,dresstype:{
     type:String
@@ -53,6 +53,57 @@ var CustomerRequirementSchema = new mongoose.Schema({
   }
   ,Dressprice:{
     type:String
+  },
+  Shirt_length: {
+    type: String,
+
+  },
+  Shirt_neck: {
+    type: String,
+
+  },
+  Shirt_chest: {
+    type: String,
+
+  },
+  Shirt_waist: {
+    type: String,
+
+  },
+  Shirt_backwidth: {
+    type: String,
+
+  },
+  Shirt_Hips:{
+    type: String,
+
+  },
+  Shirt_sleeevelenght:{
+    type: String,
+
+  },
+  Shirt_Shoulder:{
+    type: String,
+
+  },
+  Shirt_QuaterSleeveLength:{
+    type: String,
+
+  },
+  Shirt_wrist:{
+    type: String,
+
+  } , trouser_length:{
+    type: String,
+
+  },
+  trouser_calf:{
+    type: String,
+
+  },
+  trouser_ankle:{
+    type: String,
+
   }
 
 
