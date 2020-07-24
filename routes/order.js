@@ -12,7 +12,7 @@ var router = express.Router();
 router.post('/requirement', (req, res) => {
 
     var user_ID = req.body.id;
-     m.findOne({ userID: user_ID },function(err,data){
+     m.findOne({ userID: user_ID },async function(err,data){
        if(err)
        {
          console.log(err)
@@ -23,46 +23,49 @@ router.post('/requirement', (req, res) => {
          {
            console.log("null value")
          }
+         else {
+           var shirtDetails = req.body.shirtdetails;
+           var trouserDetails = req.body.trouserdetails;
+           var tailorID = req.body.tailorid;
+           var dresstype = req.body.dresstype;
+           var stichtype = req.body.stichtype;
+           var lace = req.body.lace;
+           var pipe = req.body.pipe;
+           var button = req.body.button;
+           var odertype = req.body.odertype;
+           var image = req.body.image;
+           var OderDeadline = req.body.orderdate;
+           var coments = req.body.comments;
+           var Dressprice = req.body.dressprice;
+           var status = "pending";
+
+           var random_no = Math.floor(Math.random() * (1000 - 9999 + 1)) + 9999;
+           var orderID = random_no
+
+           let ts = Date.now();
+           let date_ob = new Date(ts);
+           let c = date_ob.getDate() + "-" + date_ob.getMonth() + "-" + date_ob.getFullYear();
+           var orderDate = c.toString();
+
+
+           var orders = new cm({
+               userID: user_ID, tailorID: tailorID, coments: coments, orderID: orderID,
+               trouserDetails: trouserDetails,
+               shirtDetails: shirtDetails,
+               orderDate: orderDate, status: status, Dressprice: Dressprice,
+               dresstype: dresstype, stichtype: stichtype, lace: lace, pipe: pipe, button: button, odertype: odertype, image: image, OderDeadline: OderDeadline
+           })
+           await orders.save(function (err, data) {
+               if (err) throw err;
+               else {
+
+                   res.json({ message: "order placed", orderid: data._id, tailorid: data.tailorID });
+               }
+           })
+         }
        }
      })
-    var shirtDetails = req.body.shirtdetails;
-    var trouserDetails = req.body.trouserdetails;
-    var tailorID = req.body.tailorid;
-    var dresstype = req.body.dresstype;
-    var stichtype = req.body.stichtype;
-    var lace = req.body.lace;
-    var pipe = req.body.pipe;
-    var button = req.body.button;
-    var odertype = req.body.odertype;
-    var image = req.body.image;
-    var OderDeadline = req.body.orderdate;
-    var coments = req.body.comments;
-    var Dressprice = req.body.dressprice;
-    var status = "pending";
 
-    var random_no = Math.floor(Math.random() * (1000 - 9999 + 1)) + 9999;
-    var orderID = random_no
-
-    let ts = Date.now();
-    let date_ob = new Date(ts);
-    let c = date_ob.getDate() + "-" + date_ob.getMonth() + "-" + date_ob.getFullYear();
-    var orderDate = c.toString();
-
-
-    var orders = new cm({
-        userID: user_ID, tailorID: tailorID, coments: coments, orderID: orderID,
-        trouserDetails: trouserDetails,
-        shirtDetails: shirtDetails,
-        orderDate: orderDate, status: status, Dressprice: Dressprice,
-        dresstype: dresstype, stichtype: stichtype, lace: lace, pipe: pipe, button: button, odertype: odertype, image: image, OderDeadline: OderDeadline
-    })
-    orders.save(function (err, data) {
-        if (err) throw err;
-        else {
-
-            res.json({ message: "order placed", orderid: data._id, tailorid: data.tailorID });
-        }
-    })
 })
 router.post('/myorder/requests/details', (req, res) => {
     //var id  = req.body.id;
