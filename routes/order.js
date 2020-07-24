@@ -18,11 +18,11 @@ router.post('/requirement', (req, res) => {
          console.log(err)
        }
        else {
-         console.log(data)
-         // if(data.Shirt_length==null)
-         // {
-         //   console.log("null value")
-         // }
+
+         if(data.Shirt_length=="")
+         {
+           console.log("null value")
+         }
        }
      })
     var shirtDetails = req.body.shirtdetails;
