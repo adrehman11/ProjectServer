@@ -58,12 +58,12 @@ router.post('/requirement', (req, res) => {
            })
            try {
                var data1 = await orders.save()
-              res.json({ message: "order placed", orderid: data._id, tailorid: data.tailorID });
+              res.json({ message: "order placed", orderid: data1._id, tailorid: data1.tailorID });
 
            } catch (err) {
                console.log(err)
            }
-        
+
          }
        }
      })
