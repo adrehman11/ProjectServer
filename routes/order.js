@@ -431,7 +431,19 @@ router.post('/myorder/HistoryCurrent/details', (req, res) => {
             measurementsID = data.meaurementID
             orderstartedDate = data.orderDate;
             orderStatus = data.orderStatus;
-
+            Shirt_length = data.Shirt_length
+                Shirt_neck = data.Shirt_neck
+                Shirt_chest = data.Shirt_chest
+                Shirt_waist = data.Shirt_waist
+                Shirt_backwidth = data.Shirt_backwidth
+                Shirt_Hips = data.Shirt_Hips
+                Shirt_sleeevelenght = data.Shirt_sleeevelenght
+                Shirt_Shoulder = data.Shirt_Shoulder
+                Shirt_QuaterSleeveLength = data.Shirt_QuaterSleeveLength
+                Shirt_wrist = data.Shirt_wrist
+                trouser_length = data.trouser_length
+                trouser_calf = data.trouser_calf
+                trouser_ankle = data.trouser_ankle
             if (utype == "Tailor") {
 
                 try {
@@ -454,27 +466,6 @@ router.post('/myorder/HistoryCurrent/details', (req, res) => {
                 }
 
             }
-
-            try {
-                var data2 =   await m.findOne({ _id: measurementsID })
-                Shirt_length = data2.Shirt_length
-                    Shirt_neck = data2.Shirt_neck
-                    Shirt_chest = data2.Shirt_chest
-                    Shirt_waist = data2.Shirt_waist
-                    Shirt_backwidth = data2.Shirt_backwidth
-                    Shirt_Hips = data2.Shirt_Hips
-                    Shirt_sleeevelenght = data2.Shirt_sleeevelenght
-                    Shirt_Shoulder = data2.Shirt_Shoulder
-                    Shirt_QuaterSleeveLength = data2.Shirt_QuaterSleeveLength
-                    Shirt_wrist = data2.Shirt_wrist
-                    trouser_length = data2.trouser_length
-                    trouser_calf = data2.trouser_calf
-                    trouser_ankle = data2.trouser_ankle
-
-            } catch (err) {
-                console.log(err)
-            }
-
             res.json({
                 message: "details",
                 tailorname: tailorname, phoneno: contactno, ordersID: ordersID, dresstype: dresstype, stichtype: stichtype,
